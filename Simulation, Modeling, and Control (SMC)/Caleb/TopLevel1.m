@@ -3,8 +3,8 @@
 Initialize();
 scale = 5; %scale up car to see kinematics in motion
 
-dt = 0.1;
-X_bar = SensorModel(X);
+dt = 0.01;
+X_bar = SensorModel(X, U);
 for t = 0:dt:12
     clf;
     U = Control(X_bar);

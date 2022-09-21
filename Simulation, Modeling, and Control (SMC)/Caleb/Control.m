@@ -1,11 +1,25 @@
 function U = Control(X_bar)
 %UNTITLED2 Summary of this function goes here
 %   Detailed explanation goes here
-Acc = 0.2; %m/s/s
+persistent oldD;
+if(isempty(oldD))
+    oldD = 0;
+end
+dt = 0.01;
+lineToFollow = [1 8; 0 7];
+xdiff = lineToFollow(1,2) - lineToFollow(1,1);
+ydiff = lineToFollow(2,2) - lineToFollow(2,1);
+angle = atan2d(ydiff, xdiff);
+R = [cosd(angle) -sind(angle) lineToFollow(1,1); sind(angle) cosd(angle) lineToFollow(2,1); 0, 0, 1];
+D = inv(R) *[X_bar(1:2);1];
+v = 1;
+kp = -0.4;
+kd = -.3;
+deriv = (D(2)-oldD)/dt;
 
-U(1) = X_bar(3);
-U(2) = Acc;
-U(3) = 0;
-U(4) = X_bar(4);
-U(5) = X_bar(5); %velocity
+thetaS = D(2)*kp + kd*deriv;
+Acc = 0.2; %m/s/s
+U(1) = v;
+U(2) = thetaS; %velocity
+oldD = D(2);
 end
