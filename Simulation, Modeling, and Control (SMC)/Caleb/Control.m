@@ -14,12 +14,12 @@ R = [cosd(angle) -sind(angle) lineToFollow(1,1); sind(angle) cosd(angle) lineToF
 D = inv(R) *[X_bar(1:2);1];
 v = 1;
 kp = -0.4;
-kd = -.3;
+kd = -.5;
 deriv = (D(2)-oldD)/dt;
 
 thetaS = D(2)*kp + kd*deriv;
 Acc = 0.2; %m/s/s
-U(1) = v;
-U(2) = thetaS; %velocity
+U(1) = v; %velocity
+U(2) = thetaS; 
 oldD = D(2);
 end

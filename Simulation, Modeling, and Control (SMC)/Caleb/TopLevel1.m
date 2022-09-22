@@ -9,7 +9,7 @@ for t = 0:dt:12
     clf;
     U = Control(X_bar);
     X = Dynamics(U, X);
-    X_bar = SensorModel(X);
+    X_bar = SensorModel(X, U);
     %Plotting(X, X_bar, U, t);
     pause(dt);
 end
