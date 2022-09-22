@@ -2,7 +2,7 @@
 % seconds
 Initialize();
 scale = 5; %scale up car to see kinematics in motion
-
+%test
 dt = 0.01;
 X_bar = SensorModel(X, U);
 for t = 0:dt:12
