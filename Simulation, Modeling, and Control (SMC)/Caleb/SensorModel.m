@@ -39,8 +39,8 @@ if(doSensorModel)
 
     %Generate a sensor reading for car heading
     heading_expect = X(3);
-    beta_h = 0.1; %30
-    n_h = randn(1) * 0.5; %30 % zero mean gaussian with a std dev of sigma
+    beta_h = 0.01; %30
+    n_h = randn(1) * 0.05; %30 % zero mean gaussian with a std dev of sigma
     heading_sensor = heading_expect + beta_h + n_h;
     
     thetaC = heading_sensor;
@@ -50,13 +50,13 @@ if(doSensorModel)
     if (isempty(x_bar))
         x_bar = X(1);
     else
-        x_bar = x_bar + vbar_hold * dt * cos(X(3));
+        x_bar = x_bar + vbar_hold * dt * cos(thetaC);
     end
     
     if (isempty(y_bar))
         y_bar = X(2);
     else
-        y_bar = y_bar + vbar_hold * dt * sin(X(3));
+        y_bar = y_bar + vbar_hold * dt * sin(thetaC);
     end
     
     
