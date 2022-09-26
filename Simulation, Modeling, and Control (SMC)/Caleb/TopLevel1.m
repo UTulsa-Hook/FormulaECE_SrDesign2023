@@ -1,7 +1,7 @@
 % This script will load a car accelerating from 0 over the course of 10
 % seconds
 Initialize();
-scale = 5; %scale up car to see kinematics in motion
+scale = 1; %scale up car to see kinematics in motion
 %test
 dt = 0.01;
 X_bar = SensorModel(X, U);
