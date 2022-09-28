@@ -3,13 +3,11 @@ clear;
 poolXLims = [-2 15]';
 poolYLims = [0 15]';
 carLocation = [9 4]';  %Car location initial point
-
 thetaC = pi/4; %Angle of car with respect to X-axis
 thetaS = pi/4; %Angle of Front Tires
 thetaDot = pi/12;
 move = [.1, 0]';
 v=0.3;
-
 plot([poolXLims(1), poolXLims(1), poolXLims(2), poolXLims(2), poolXLims(1)], [poolYLims(1), poolYLims(2), poolYLims(2), poolYLims(1), poolYLims(1)], 'b' , 'LineWidth', 3)
 drawCar(carLocation, thetaC, thetaS);
 
@@ -26,8 +24,8 @@ for t = 0:8
      carLocation = carLocation + move;
      pause(.1)
 end
-
  move = [-.4, 0]';
+ 
  for t = 0:12 
      %Draw the pool area
      clf;

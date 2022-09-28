@@ -5,7 +5,7 @@ clear drawTire;
 clear Control;
 clf;
 
-carLocation = [2 2]';
+carLocation = [4 8]';
 thetaC = 0;
 thetaDot = -pi/16;
 X = [carLocation(1) carLocation(2) thetaDot]';
