@@ -3,7 +3,9 @@ function drawPoolEnviroment()
     poolYLims = [0 13]';
     rampXLims = [0 4]';
     rampYLims = [11 13]';
-    controlLine = [1 0; 8 7]; 
+    controlLine1 = [4 8; 7 5];
+    controlLine2 = [7 5; 11 6];
+    controlLine3 = [11 6; 12 0];
     %Draw the pool area
     hold on
     plot([poolXLims(1), poolXLims(1), poolXLims(2), poolXLims(2), poolXLims(1)], ...
@@ -15,6 +17,8 @@ function drawPoolEnviroment()
         'r' , 'LineWidth', 1)
     xlabel('x')
     ylabel('y')
-    plot(controlLine(:,1), controlLine(:,2), 'k');
+    plot(controlLine1(:,1), controlLine1(:,2), 'k');
+    plot(controlLine2(:,1), controlLine2(:,2), 'k');
+    plot(controlLine3(:,1), controlLine3(:,2), 'k');
     hold off
 end

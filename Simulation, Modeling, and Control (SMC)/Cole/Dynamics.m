@@ -1,5 +1,5 @@
 function X = Dynamics(U, X)
-dt = 0.01;
+dt = 0.1;
 v = U(1);
 thetaDot = U(2);
 x = X(1);
