@@ -2,11 +2,11 @@
 % seconds
 Initialize();
 scale = 1; %scale up car to see kinematics in motion
-%test
-dt = 0.01;
+global dt;
 X_bar = SensorModel(X, U);
 for t = 0:dt:12
-    clf;
+%while 1
+    clf; %comment out for plotting 
     U = Control(X_bar);
     X = Dynamics(U, X);
     X_bar = SensorModel(X, U);

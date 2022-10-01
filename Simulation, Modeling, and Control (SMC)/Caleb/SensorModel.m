@@ -1,7 +1,7 @@
 function X_bar = SensorModel(X, U)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
-
+    global dt;
     persistent x_bar;
     persistent y_bar;
     persistent thetaC;
@@ -12,14 +12,13 @@ function X_bar = SensorModel(X, U)
         vbar_hold = U(1);
     end
 r_wheel = .025;
-dt = .01;
-doSensorModel = true;
+doSensorModel = false;
 % velocity measurement will be a function of wheel encoder
 % linear velocity = Wheel radius * angular velocity of (w) wheel
 if(doSensorModel)
     %Generate a sensor reading
     w_expect = U(1)/r_wheel;
-    beta_w = 0.1; %30
+    beta_w = 0.1; %30 %bias 
     n_w = randn(1) * 0.5; %30 % zero mean gaussian with a std dev of sigma
     w_sensor = w_expect + beta_w + n_w;
 
