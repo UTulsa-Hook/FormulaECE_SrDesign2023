@@ -17,7 +17,7 @@ doSensorModel = true;
 % linear velocity = Wheel radius * angular velocity of (w) wheel
 if(doSensorModel)
     %Generate a sensor reading
-    w_expect = 1/r_wheel;
+    w_expect = U(1)/r_wheel;
     beta_w = 0.1; 
     n_w = randn(1) * .5; % zero mean gaussian with a std dev of sigma
     w_sensor = w_expect + beta_w + n_w;

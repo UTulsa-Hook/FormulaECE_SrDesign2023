@@ -11,7 +11,7 @@ lines = [1 0 7 4;7 4 2 8];
 lineToFollow = lines(1,:);
 
 %car is in region where normal vector is pointing when positive
-if(dot(([X_bar(1) X_bar(2)] - [lineToFollow(3) lineToFollow(4)]),[.707 .707]) > 0)
+if(dot(([X_bar(1) X_bar(2)] - [lineToFollow(3) lineToFollow(4)]),[0 1]) > 0)
     lineToFollow = lines(2,:);
 end
 lineToFollow
