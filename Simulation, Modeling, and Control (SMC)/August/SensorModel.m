@@ -1,4 +1,4 @@
-function X_bar = SensorModel(X, U)
+function xbar = SensorModel(X, U)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -54,8 +54,8 @@ if(doSensorModel)
     end
     
     
-    X_bar = [x_bar y_bar theta_bar]';
+    xbar = [x_bar y_bar theta_bar]';
     vbar_hold = v_bar;
 else
-    X_bar = X;
+    xbar = X;
 end

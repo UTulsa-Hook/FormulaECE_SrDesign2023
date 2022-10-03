@@ -1,6 +1,4 @@
-
-
-function drawTire(carLoc, tireLoc, width, radius, thetaC, thetaS,scale)
+function oldDrawTire(carLoc, tireLoc, width, radius, thetaC, thetaS,scale)
 %drawTires... it draws tires.
 %patch(X, Y, C)
 X = scale* [-radius, -radius, radius, radius];

@@ -1,25 +1,42 @@
-function U = Control(X_bar)
-%UNTITLED2 Summary of this function goes here
-%   Detailed explanation goes here
-persistent oldD;
-if(isempty(oldD))
-    oldD = 0;
-end
-dt = 0.01;
-lineToFollow = [1 8; 0 7];
-xdiff = lineToFollow(1,2) - lineToFollow(1,1);
-ydiff = lineToFollow(2,2) - lineToFollow(2,1);
-angle = atan2d(ydiff, xdiff);
-R = [cosd(angle) -sind(angle) lineToFollow(1,1); sind(angle) cosd(angle) lineToFollow(2,1); 0, 0, 1];
-D = inv(R) *[X_bar(1:2);1];
-v = 1;
-kp = -0.4;
-kd = -.3;
-deriv = (D(2)-oldD)/dt;
+function U =control(xbar)
+%this function automates the motion of the car and corrects the movement
+%so that the course is adjusted to match expectations
+%U represents the changed state of the car as apposed to xbar which is the
+%sensed state
 
-thetaS = D(2)*kp + kd*deriv;
-Acc = 0.2; %m/s/s
-U(1) = v;
-U(2) = thetaS; %velocity
-oldD = D(2);
+persistent oldD;
+
+if(isempty(oldD))
+    oldD=0;
 end
+
+dt=.01;
+%   cLine = [0 1; 7 8];
+%     cline2 = [7 8; 12 4];
+lineToFollow = [1 8; 0 7];
+halfPlane1 = dot([xbar(1);xbar(2)]-[lineToFollow(1,2);lineToFollow(2,2)],[0 1]);
+
+if (halfPlane1>0)
+    lineToFollow = [8 4; 7 12];
+end
+
+xd=lineToFollow(1,2)-lineToFollow(1,1);
+yd=lineToFollow(2,2)-lineToFollow(2,1);
+alpha=atan2d(yd, xd);
+
+%rotation matrix
+R = [cosd(alpha) -sind(alpha) lineToFollow(1,1); 
+    sind(alpha) cosd(alpha) lineToFollow(2,1); 
+    0, 0, 1];
+D=inv(R)*[xbar(1:2);1];
+
+v=1;
+kp=-.04;
+kd=-.45;
+
+deriv=(D(2)-oldD)/dt;
+thetaS=D(2)*kp+kd*deriv;
+accel=.2;
+U(1)=v;
+U(2)=thetaS;
+oldD=D(2);
