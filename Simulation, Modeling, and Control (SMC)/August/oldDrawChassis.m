@@ -1,4 +1,4 @@
-function drawChassis(originPt, forwardDist, backDist, width, thetaC,scale)
+function oldDrawChassis(originPt, forwardDist, backDist, width, thetaC,scale)
 %drawChassis draws the chassis
 X = scale*[-backDist, -backDist, forwardDist, forwardDist];
 Y = scale* [-.5*width, .5*width, .5*width, -.5*width];
