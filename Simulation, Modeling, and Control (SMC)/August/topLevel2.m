@@ -1,13 +1,14 @@
 Initialize();
-scale = 2; %scale up car to see kinematics in motion
+global dt;
 
-dt = 0.1;   
-xbar = SensorModel(X);
-for t = 0:dt:120
+xbar = SensorModel(X,U);
+while 1
     clf;
     U = Control(xbar);
     X = Dynamics(U, X);
-    xbar = SensorModel(X);
+    xbar = SensorModel(X, U);
     %Plotting(X, xbar, U, t);
-    pause(dt);
+    pause(dt/100);
 end
+
+%fix stuff tomorrow am tired
