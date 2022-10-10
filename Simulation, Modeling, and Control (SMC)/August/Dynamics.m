@@ -2,7 +2,7 @@ function X = Dynamics(U, X)
 %this function assigns values to velocity and draws the car according to
 %these values
 %math done in control and other functions
-dt = .01;
+global dt;
 v = U(1);
 thetaS = U(2);
 % x = X(1);
@@ -17,7 +17,7 @@ X(2) = xdot(2) * dt + X(2); %velocity * dt + current y_location
 X(3) = xdot(3) * dt + X(3);
 
 drawPoolEnvironment();
-drawCar([X(1), X(2)], X(3), U(2), 5);
+drawCar([X(1), X(2)], X(3), U(2), 3);
 
 end
 

@@ -4,10 +4,14 @@ function drawCar(carLocation, thetaC, thetaS, scale)
 forwardCar = scale*.08;
 rearCar = scale*.01;
 carWidth = scale*.05;
-rlTireOffset = [.085, .5, 0]';
-rrTireOffset = [.085, -.5, 0]';
-flTireOffset = [1.7, .5]';
-frTireOffset = [1.7, -.5]';
+% rlTireOffset = scale * [.085, .5, 0]';
+% rrTireOffset = scale * [.085, -.5, 0]';
+% flTireOffset = scale * [1.7, .5]';
+% frTireOffset = scale * [1.7, -.5]';
+flTireOffset = scale * [.185, .125/2, 0]';
+frTireOffset = scale * [.185, -.125/2, 0]';
+rlTireOffset = scale * [.01, .125/2]';
+rrTireOffset = scale * [.01, -.125/2]';
 
 
 drawChassis(carLocation, forwardCar, rearCar, carWidth, thetaC,scale);
