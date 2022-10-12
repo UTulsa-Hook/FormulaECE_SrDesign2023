@@ -1,6 +1,18 @@
 function [U] = MotorModels(U_bar)
 %MotorModels This function takes in duty cycle and outputs v, thetaS
 %   Detailed explanation goes here
+persistent Ubar_old;
+persistent uncert;
+global includeUncertainty;
+global sigmaSteering;
+global sigmaDrive;
+global driveTable;
+global steerTable;
+
+if(isempty(Ubar_old))
+    Ubar_old = 0;
+    uncert = [0 0];
+end
 driveCurve = U_bar(1);
 steerCurve = rad2deg(U_bar(2));
 driveTable = [77, 0.9; 78 1.1; 79 1.5; 80 1.9]; % sample data
@@ -39,4 +51,11 @@ else
     U = [0 0];
     print('An error occured in motor model. U_bar = %d: %d' + driveCurve + steerCurve);
 end
+if(includeUncertainty)
+    if(U_bar ~= Ubar_old)
+        uncert = [normrnd(0,sigmaDrive), normrnd(0,sigmaSteering)];
+    end
+end
+U = U + uncert;
+Ubar_old = U_bar;
 end

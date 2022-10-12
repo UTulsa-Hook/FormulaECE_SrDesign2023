@@ -7,11 +7,33 @@ clear Control;
 clear drawChassis;
 clear drawTire;
 clear controlCircle;
+clear MotorModels;
 clf;
 global controlArray;
 global controlIndex;
 global velocity;
-global dt; 
+global dt;
+global includeUncertainty;
+global sigmaSteering;
+global sigmaDrive;
+global sigmaPos;
+global sigmaPosTime;
+global muPosTime;
+global driveTable;
+global steerTable;
+
+driveTable = [77, 0.9; 78 1.1; 79 1.5; 80 1.9]; % sample data
+steerTable = [75, 84; 76, 86]; % sample data
+
+%%%% Some uncertainty stuff
+includeUncertainty = true;
+sigmaSteering = deg2rad(5); %steering angle radians.
+sigmaDrive = .2; %m/s
+sigmaPos = .2;
+sigmaPosTime = .1;
+muPosTime = .7;
+
+
 velocity = 5;
 dt = 0.01;
 carLocation = [1.1 8]';  %Car location in the pool frame

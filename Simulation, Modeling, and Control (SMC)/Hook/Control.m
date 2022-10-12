@@ -20,4 +20,5 @@ function U = Control(X_bar)
     else
         U = controlLine(X_bar);
     end
+    
 end
