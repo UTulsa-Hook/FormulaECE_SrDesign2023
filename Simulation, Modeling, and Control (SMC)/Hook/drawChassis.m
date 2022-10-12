@@ -1,25 +1,20 @@
-function drawChassis(originPt, forwardDist, backDist, width, thetaC)
+function [car] = drawChassis(originPt, forwardDist, backDist, width, thetaC, scale)
 %drawChassis draws the chassis
-X = [-backDist, -backDist, forwardDist, forwardDist];
-Y = [-.5*width, .5*width, .5*width, -.5*width];
-% X = [originPt(1)-backDist, originPt(1)-backDist, originPt(1)+forwardDist, originPt(1)+forwardDist];
-% Y = [originPt(2)-.5*width, originPt(2)+.5*width, originPt(2)+.5*width, originPt(2)-.5*width];
+%current location of the chassis
+Xc = originPt(1);
+Yc = originPt(2);
 
-%Rotate the points
-rotationMatrix = [cos(thetaC), -sin(thetaC), 0;
-                  sin(thetaC), cos(thetaC), 0;
-                  0, 0, 1];
-pts = [X; Y; zeros(size(X))];
+%perform the rotation at the origin, using the true center point
+X_o = scale * [-0.155, -0.155, 0.155, 0.155];
+Y_o = [-width/2, width/2, width/2, -width/2];
+theta = thetaC; % The rotation angle
+cth = cos(theta);
+sth = sin(theta);
+Xrot =  -X_o*cth - Y_o*sth;
+Yrot = -X_o*sth + Y_o*cth;
 
-newPts = rotationMatrix * pts;
+%draw the car
+car = patch(Xrot + Xc, Yrot + Yc, [0 0.56470 1]); %RGB values for alpine blue
 
-%translate the points
-translateX = ones(1,size(X, 2)) * originPt(1);
-translateY = ones(1,size(X, 2)) * originPt(2);
-
-newX = newPts(1,:) + translateX;
-newY = newPts(2,:) + translateY;
-
-%plot
-patch(newX, newY, 'b')
 end
+
