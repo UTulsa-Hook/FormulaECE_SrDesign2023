@@ -5,9 +5,18 @@ function U = controlCircle(X_bar, resetIntegral)
     global controlIndex;
     global velocity;
     global dt;
-    persistent lineToFollow;
     persistent oldD;
     persistent integralFactor;
+    persistent integralPlot;
+    persistent t;
+
+    plotting = false;
+
+    if(plotting)
+        if(isempty(t))
+            t = 0;
+        end
+    end
     
     if(isempty(oldD))
         oldD = 0;
@@ -53,5 +62,17 @@ function U = controlCircle(X_bar, resetIntegral)
     U(1) = velocity; %velocity
     U(2) = thetaS; 
     oldD = error;
-    integralFactor = integralFactor + error/dt;
+    integralFactor = integralFactor + error/dt
+
+    if(plotting)
+        if t == 0
+            integralPlot = plot(t, integralFactor, 'k')
+            hold on
+            xlabel('t (s)')
+            ylabel('Integral Component of Controller');
+        else
+            set(integralPlot, 'Xdata', [get(integralPlot,'Xdata') t], 'Ydata', [get(integralPlot,'Ydata') integralFactor])
+        end
+        t = t + dt;
+    end
 end

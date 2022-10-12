@@ -7,9 +7,10 @@ X_bar = SensorModel(X, U);
 %for t = 0:dt:30
 while 1
     clf; %comment out for plotting 
-    U = Control(X_bar);
+    U_bar = Control(X_bar);
+    U = MotorModels(U_bar);
     X = Dynamics(U, X);
     X_bar = SensorModel(X, U);
     %Plotting(X, X_bar, U, t);
-    pause(dt/100);
+    pause(dt);
 end
