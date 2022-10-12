@@ -12,7 +12,7 @@ function X_bar = SensorModel(X, U)
     end
 r_wheel = .025;
 dt = .01;
-doSensorModel = true;
+doSensorModel = false;
 % velocity measurement will be a function of wheel encoder
 % linear velocity = Wheel radius * angular velocity of (w) wheel
 if(doSensorModel)

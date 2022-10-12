@@ -1,11 +1,9 @@
 function X = Dynamics(U, X)
 %UNTITLED3 Summary of this function goes here
 %   Detailed explanation goes here
-dt = .01;
+global dt;
 v = U(1);
 thetaS = U(2);
-x = X(1);
-y = X(2);
 theta = X(3);
 X_dot = [v * cos(theta);
          v * sin(theta);

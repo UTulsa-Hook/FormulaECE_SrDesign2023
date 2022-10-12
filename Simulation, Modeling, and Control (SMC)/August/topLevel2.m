@@ -1,15 +1,14 @@
-% This script will load a car accelerating from 0 over the course of 10
-% seconds
 Initialize();
-scale = 5; %scale up car to see kinematics in motion
+global dt;
 
-dt = 0.1;
-X_bar = SensorModel(X);
-for t = 0:dt:12
+xbar = SensorModel(X,U);
+while 1
     clf;
-    U = Control(X_bar);
+    U = Control(xbar);
     X = Dynamics(U, X);
-    X_bar = SensorModel(X);
-    %Plotting(X, X_bar, U, t);
-    pause(dt);
+    xbar = SensorModel(X, U);
+    %Plotting(X, xbar, U, t);
+    pause(dt/100);
 end
+
+%fix stuff tomorrow am tired
