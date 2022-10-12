@@ -6,7 +6,7 @@ function U = Control(X_bar)
 
     if(checkHalfPlane(X_bar) > 0)
         if(controlIndex == size(controlArray, 1))
-            controlIndex = 100; % 1; set to break for demo
+            controlIndex = 1; %set to break for demo
         else
             controlIndex = controlIndex + 1;
         end

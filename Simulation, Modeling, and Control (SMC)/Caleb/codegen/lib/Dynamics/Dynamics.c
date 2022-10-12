@@ -19,6 +19,7 @@ void Dynamics(const double U[2], double X[3])
   double d;
   /* UNTITLED3 Summary of this function goes here */
   /*    Detailed explanation goes here */
+  /* global dt; */
   d = sin(X[2]);
   /* X = X_dot * dt + X */
   X[0] += U[0] * cos(X[2]) * 0.01;
@@ -28,7 +29,7 @@ void Dynamics(const double U[2], double X[3])
   X[2] += U[0] * tan(U[1]) / 0.27 * 0.01;
   /* d_thetaC * dt + current thetaC */
   /* drawPoolEnvironment(); */
-  /* drawCar([X(1), X(2)], X(3), U(2), 5); */
+  /* drawCar([X(1), X(2)], X(3), U(2), 3); */
 }
 
 /* End of code generation (Dynamics.c) */

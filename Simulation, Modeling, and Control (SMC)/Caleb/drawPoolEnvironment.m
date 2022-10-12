@@ -15,7 +15,7 @@ function drawPoolEnvironment()
     xlabel('x')
     ylabel('y')
     
-    incrementalDrawing = false;
+    incrementalDrawing = true;
     
     if(incrementalDrawing == true)
         if(controlArray(controlIndex,1) == 0)
