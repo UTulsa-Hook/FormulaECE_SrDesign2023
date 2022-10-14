@@ -68,6 +68,7 @@ class ReadyToLocalize(object):
         network_id = self.remote_id
         if network_id is None:
             network_id = 0
+
         write = datetime.now()-read
         print("POS ID {}, x(mm): {pos.x} y(mm): {pos.y} z(mm): {pos.z} time: {time}".format(
             "0x%0.4x" % network_id, pos=position, time=write))
@@ -79,15 +80,18 @@ class ReadyToLocalize(object):
         if network_id is None:
             self.pozyx.getErrorCode(error_code)
             print("LOCAL ERROR %s, %s" % (operation, self.pozyx.getErrorMessage(error_code)))
+
             return
         status = self.pozyx.getErrorCode(error_code, self.remote_id)
         if status == POZYX_SUCCESS:
             print("ERROR %s on ID %s, %s" %
                   (operation, "0x%0.4x" % network_id, self.pozyx.getErrorMessage(error_code)))
+
         else:
             self.pozyx.getErrorCode(error_code)
             print("ERROR %s, couldn't retrieve remote error code, LOCAL ERROR %s" %
                   (operation, self.pozyx.getErrorMessage(error_code)))
+
             # should only happen when not being able to communicate with a remote Pozyx.
 
     def setAnchorsManual(self, save_to_flash=False):
