@@ -54,15 +54,19 @@ function U = controlCircle(X_bar, resetIntegral)
         kp = 0.4;
         kd = .5;
     end
-
-    deriv = (error-oldD)/dt;
     
+    if(resetIntegral == 1)
+        deriv = 0;
+    else
+        deriv = (error-oldD)/dt;
+    end
+
     %set the steering angle with PD controller to steer towards line
     thetaS = error*kp + integralFactor * ki + kd*deriv;
     U(1) = velocity; %velocity
     U(2) = thetaS; 
     oldD = error;
-    integralFactor = integralFactor + error/dt
+    integralFactor = integralFactor + error*dt;
 
     if(plotting)
         if t == 0

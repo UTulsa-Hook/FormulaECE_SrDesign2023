@@ -4,6 +4,9 @@ clear PlottingTest;
 clear SensorModel;
 clear drawTire;
 clear Control;
+clear controlCircle;
+clear controlLine;
+clear MotorModels;
 clear drawChassis;
 clear drawTire;
 clf;
@@ -11,7 +14,30 @@ global controlArray;
 global controlIndex;
 global velocity;
 global dt; 
-velocity = 5;
+
+global driveTable;
+global steerTable;
+
+driveTable = [78 4.6; 80 7.8; 82 11.0; 84 13.1;]; % sample data pwm, speed;
+steerTable = [60, 45; 62, 45; 64, 55; 66, 60;...
+                68, 70; 70 75; 72 80; 74 90;...
+                76 95; 78 105; 80 110; 82 115;...
+                84 120; 86 125; 88 130;]; % sample data pwm, angle
+
+global includeUncertainty;
+global sigmaSteering;
+global sigmaDrive;
+global sigmaPos;
+global sigmaPosTime;
+global muPosTime;
+includeUncertainty = true;
+sigmaSteering = deg2rad(5);
+sigmaDrive = 0.2;
+sigmaPos = .2;
+sigmaPosTime = .1;
+muPosTime = 0.7;
+
+velocity = 2;
 dt = 0.01;
 carLocation = [1.1 8]';  %Car location in the pool frame
 thetaC = -pi/2; %set the initial angle of the car

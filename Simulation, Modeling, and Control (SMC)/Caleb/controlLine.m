@@ -2,6 +2,7 @@ function U = controlLine(X_bar)
     global dt;
     global controlArray;
     global controlIndex;
+    global velocity;
     persistent oldD;
     persistent lineToFollow;
     if(isempty(oldD))
@@ -46,7 +47,7 @@ function U = controlLine(X_bar)
         sind(angle) cosd(angle) controlArray(controlIndex, 3); 
         0, 0, 1];
     D = inv(R) *[X_bar(1:2);1];
-    v = 2;
+    v = velocity;
     kp = -0.4;
     kd = -.5;
     deriv = (D(2)-oldD)/dt;
