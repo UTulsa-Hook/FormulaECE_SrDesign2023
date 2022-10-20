@@ -5,7 +5,7 @@
  *
  * rtwtypes.h
  *
- * Code generation for function 'Dynamics'
+ * Code generation for function 'Control'
  *
  */
 

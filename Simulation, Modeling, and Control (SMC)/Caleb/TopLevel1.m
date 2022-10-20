@@ -6,7 +6,7 @@ global dt;
 oldPos = PriorityQueue(1);
 counter = 0;
 X_bar = SensorModel(X, U);
-%for t = 0:dt:30
+%for t = 0:dt:8
 while 1
     clf; %comment out for plotting 
     X_bar = doPositionUncert(X_bar, oldPos);
@@ -16,9 +16,10 @@ while 1
     X_bar = SensorModel(X, U);
     %Plotting(X, X_bar, U, t);
     if(counter > 2/dt)
-        oldPos.remove();
+        oldPos.remove(oldPos.peek());
     end
     oldPos.insert([counter, X_bar(1), X_bar(2)]);
     counter = counter + 1;
+    testAngle = rad2deg(U(2));
     pause(dt);
 end

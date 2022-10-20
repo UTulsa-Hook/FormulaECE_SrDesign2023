@@ -18,8 +18,8 @@ doSensorModel = false;
 if(doSensorModel)
     %Generate a sensor reading
     w_expect = U(1)/r_wheel;
-    beta_w = 0.1; %30 %bias 
-    n_w = randn(1) * 0.5; %30 % zero mean gaussian with a std dev of sigma
+    beta_w = 30; %30 %bias 
+    n_w = randn(1) * 5; %30 % zero mean gaussian with a std dev of sigma
     w_sensor = w_expect + beta_w + n_w;
 
     %Regenerate the state variable

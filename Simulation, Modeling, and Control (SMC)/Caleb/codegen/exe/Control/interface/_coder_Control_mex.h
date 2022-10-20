@@ -3,14 +3,14 @@
  * course requirements at degree granting institutions only.  Not for
  * government, commercial, or other organizational use.
  *
- * _coder_Dynamics_mex.h
+ * _coder_Control_mex.h
  *
- * Code generation for function 'Dynamics'
+ * Code generation for function 'Control'
  *
  */
 
-#ifndef _CODER_DYNAMICS_MEX_H
-#define _CODER_DYNAMICS_MEX_H
+#ifndef _CODER_CONTROL_MEX_H
+#define _CODER_CONTROL_MEX_H
 
 /* Include files */
 #include "emlrt.h"
@@ -27,12 +27,12 @@ MEXFUNCTION_LINKAGE void mexFunction(int32_T nlhs, mxArray *plhs[],
 
 emlrtCTX mexFunctionCreateRootTLS(void);
 
-void unsafe_Dynamics_mexFunction(int32_T nlhs, mxArray *plhs[1], int32_T nrhs,
-                                 const mxArray *prhs[2]);
+void unsafe_Control_mexFunction(int32_T nlhs, mxArray *plhs[1], int32_T nrhs,
+                                const mxArray *prhs[1]);
 
 #ifdef __cplusplus
 }
 #endif
 
 #endif
-/* End of code generation (_coder_Dynamics_mex.h) */
+/* End of code generation (_coder_Control_mex.h) */

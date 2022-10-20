@@ -1,6 +1,6 @@
 function U = controlCircle(X_bar, resetIntegral)
 %UNTITLED3 Summary of this function goes here
-%   Detailed explanation goes here
+  %Detailed explanation goes here
     global controlArray;
     global controlIndex;
     global velocity;
@@ -60,7 +60,7 @@ function U = controlCircle(X_bar, resetIntegral)
     else
         deriv = (error-oldD)/dt;
     end
-
+    
     %set the steering angle with PD controller to steer towards line
     thetaS = error*kp + integralFactor * ki + kd*deriv;
     U(1) = velocity; %velocity

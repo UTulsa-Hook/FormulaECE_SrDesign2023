@@ -18,7 +18,7 @@ if(isempty(Ubar_hold))
 end
 
 driveCurve = U_bar(1);
-steerCurve = rad2deg(U_bar(2));
+steerCurve = rad2deg(U_bar(2))
 
 while(steerCurve < -180 || steerCurve > 180)
     if(steerCurve < -180)
@@ -38,7 +38,7 @@ for i = 1:size(driveTable, 1)
 end
 
 for i = 1:size(steerTable, 1)
-    if(isempty(steerCurvePWM) && steerCurve >= 0.8 * steerTable(i, 2) && steerCurve <= 1.2 * steerTable(i, 2))
+    if(isempty(steerCurvePWM) && steerCurve >= 0.9 * steerTable(i, 2) && steerCurve <= 1.1 * steerTable(i, 2))
         U(2) = deg2rad(steerTable(i,2)-90); %set the velocity in the model to a possible velocity based on the curves
         steerCurvePWM = steerTable(i,1); % outputting the corresponding PWM happens here
     end
@@ -73,6 +73,7 @@ if(includeUncertainty)
         uncert(2) = normrnd(0, sigmaSteering);
     end
 end
+rad2deg(U(2))
 U = U + uncert;
 Ubar_hold = U_bar;
 PWMtoSend = [driveCurvePWM, steerCurvePWM];

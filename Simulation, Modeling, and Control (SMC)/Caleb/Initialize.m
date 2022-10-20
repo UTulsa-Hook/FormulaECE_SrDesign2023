@@ -33,11 +33,11 @@ global muPosTime;
 includeUncertainty = true;
 sigmaSteering = deg2rad(5);
 sigmaDrive = 0.2;
-sigmaPos = .2;
+sigmaPos = .1;
 sigmaPosTime = .1;
 muPosTime = 0.7;
 
-velocity = 2;
+velocity = 1;
 dt = 0.01;
 carLocation = [1.1 8]';  %Car location in the pool frame
 thetaC = -pi/2; %set the initial angle of the car

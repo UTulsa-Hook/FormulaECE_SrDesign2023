@@ -3,14 +3,14 @@
  * course requirements at degree granting institutions only.  Not for
  * government, commercial, or other organizational use.
  *
- * Dynamics_initialize.h
+ * Control.h
  *
- * Code generation for function 'Dynamics_initialize'
+ * Code generation for function 'Control'
  *
  */
 
-#ifndef DYNAMICS_INITIALIZE_H
-#define DYNAMICS_INITIALIZE_H
+#ifndef CONTROL_H
+#define CONTROL_H
 
 /* Include files */
 #include "rtwtypes.h"
@@ -22,11 +22,15 @@ extern "C" {
 #endif
 
 /* Function Declarations */
-extern void Dynamics_initialize(void);
+extern double Control(const double X_bar[3]);
+
+extern void Control_initialize(void);
+
+extern void Control_terminate(void);
 
 #ifdef __cplusplus
 }
 #endif
 
 #endif
-/* End of code generation (Dynamics_initialize.h) */
+/* End of code generation (Control.h) */

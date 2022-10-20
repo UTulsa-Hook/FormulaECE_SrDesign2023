@@ -3,13 +3,17 @@
  * course requirements at degree granting institutions only.  Not for
  * government, commercial, or other organizational use.
  *
- * Dynamics_data.c
+ * Control_types.h
  *
- * Code generation for function 'Dynamics_data'
+ * Code generation for function 'Control'
  *
  */
 
-/* Include files */
-#include "Dynamics_data.h"
+#ifndef CONTROL_TYPES_H
+#define CONTROL_TYPES_H
 
-/* End of code generation (Dynamics_data.c) */
+/* Include files */
+#include "rtwtypes.h"
+
+#endif
+/* End of code generation (Control_types.h) */
