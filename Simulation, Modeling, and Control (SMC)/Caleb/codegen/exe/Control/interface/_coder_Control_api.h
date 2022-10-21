@@ -3,14 +3,14 @@
  * course requirements at degree granting institutions only.  Not for
  * government, commercial, or other organizational use.
  *
- * _coder_Dynamics_api.h
+ * _coder_Control_api.h
  *
- * Code generation for function 'Dynamics'
+ * Code generation for function 'Control'
  *
  */
 
-#ifndef _CODER_DYNAMICS_API_H
-#define _CODER_DYNAMICS_API_H
+#ifndef _CODER_CONTROL_API_H
+#define _CODER_CONTROL_API_H
 
 /* Include files */
 #include "emlrt.h"
@@ -26,23 +26,23 @@ extern "C" {
 #endif
 
 /* Function Declarations */
-void Dynamics(real_T U[2], real_T X[3]);
+void Control(real_T X_bar[3], real_T U[2]);
 
-void Dynamics_api(const mxArray *const prhs[2], const mxArray **plhs);
+void Control_api(const mxArray *prhs, const mxArray **plhs);
 
-void Dynamics_atexit(void);
+void Control_atexit(void);
 
-void Dynamics_initialize(void);
+void Control_initialize(void);
 
-void Dynamics_terminate(void);
+void Control_terminate(void);
 
-void Dynamics_xil_shutdown(void);
+void Control_xil_shutdown(void);
 
-void Dynamics_xil_terminate(void);
+void Control_xil_terminate(void);
 
 #ifdef __cplusplus
 }
 #endif
 
 #endif
-/* End of code generation (_coder_Dynamics_api.h) */
+/* End of code generation (_coder_Control_api.h) */

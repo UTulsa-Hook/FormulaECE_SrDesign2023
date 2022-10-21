@@ -36,30 +36,16 @@
 
 /* Include files */
 #include "main.h"
-#include "Dynamics.h"
-#include "Dynamics_terminate.h"
+#include "Control.h"
 
 /* Function Declarations */
-static void argInit_1x2_real_T(double result[2]);
-
 static void argInit_1x3_real_T(double result[3]);
 
 static double argInit_real_T(void);
 
-static void main_Dynamics(void);
+static void main_Control(void);
 
 /* Function Definitions */
-static void argInit_1x2_real_T(double result[2])
-{
-  int idx1;
-  /* Loop over the array to initialize each element. */
-  for (idx1 = 0; idx1 < 2; idx1++) {
-    /* Set the value of the array element.
-Change this value to the value that the application requires. */
-    result[idx1] = argInit_real_T();
-  }
-}
-
 static void argInit_1x3_real_T(double result[3])
 {
   int idx1;
@@ -76,17 +62,15 @@ static double argInit_real_T(void)
   return 0.0;
 }
 
-static void main_Dynamics(void)
+static void main_Control(void)
 {
-  double X[3];
-  double dv[2];
-  /* Initialize function 'Dynamics' input arguments. */
-  /* Initialize function input argument 'U'. */
-  /* Initialize function input argument 'X'. */
-  /* Call the entry-point 'Dynamics'. */
-  argInit_1x3_real_T(X);
-  argInit_1x2_real_T(dv);
-  Dynamics(dv, X);
+  double dv[3];
+  double U[2];
+  /* Initialize function 'Control' input arguments. */
+  /* Initialize function input argument 'X_bar'. */
+  /* Call the entry-point 'Control'. */
+  argInit_1x3_real_T(dv);
+  Control(dv, U);
 }
 
 int main(int argc, char **argv)
@@ -97,10 +81,10 @@ int main(int argc, char **argv)
    * function. So, a call to initialize is not included here. */
   /* Invoke the entry-point functions.
 You can call entry-point functions multiple times. */
-  main_Dynamics();
+  main_Control();
   /* Terminate the application.
 You do not need to do this more than one time. */
-  Dynamics_terminate();
+  Control_terminate();
   return 0;
 }
 
