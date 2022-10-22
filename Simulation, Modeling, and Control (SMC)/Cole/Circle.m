@@ -1,10 +1,9 @@
 function U = Circle(XBar, resetIntegral)
-%UNTITLED3 Summary of this function goes here
-%   Detailed explanation goes here
     global Array;
     global Index;
     global velocity;
     global dt;
+    
     persistent oldD;
     persistent integralFactor;
     persistent integralPlot;
