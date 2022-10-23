@@ -3,7 +3,6 @@ function U = Circle(XBar, resetIntegral)
     global Index;
     global velocity;
     global dt;
-    
     persistent oldD
     persistent integralFactor
     persistent integralPlot
