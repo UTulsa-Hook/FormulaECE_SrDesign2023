@@ -1,5 +1,4 @@
 function U = Control(XBar)
-
     global Array;
     global Index;
 
@@ -20,4 +19,3 @@ function U = Control(XBar)
         U = Line(XBar);
     end
 end
-
