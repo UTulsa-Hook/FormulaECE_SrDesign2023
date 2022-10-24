@@ -14,7 +14,7 @@ X(1) = X_dot(1) * dt + X(1); %velocity * dt + current x_location
 X(2) = X_dot(2) * dt + X(2); %velocity * dt + current y_location
 X(3) = X_dot(3) * dt + X(3);
 drawPoolRamp();
-drawCar([X(1), X(2)], X(3), U(2), 5);
+drawCar([X(1), X(2)], X(3), U(2), 3);
 
 
 end
