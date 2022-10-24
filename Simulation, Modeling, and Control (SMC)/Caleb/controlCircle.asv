@@ -20,7 +20,7 @@ function U = controlCircle(X_bar, resetIntegral)
     
     if(isempty(oldD))
         oldD = 0;
-        integralFactor = 0;
+        integralFactor = 0.1795;
     end
 
     if(resetIntegral == 1)
@@ -43,8 +43,8 @@ function U = controlCircle(X_bar, resetIntegral)
     elseif(controlIndex == 7)
         ki = 0.0002;
     else
-        ki = 0.00035;
-        %ki = 0.5; % for testing
+        %ki = 0.00035;
+        ki = 0.5;
     end
 
     if(lambda == 0)

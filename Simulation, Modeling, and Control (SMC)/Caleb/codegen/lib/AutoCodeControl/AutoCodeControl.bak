@@ -1,0 +1,342 @@
+/*
+ * Academic License - for use in teaching, academic research, and meeting
+ * course requirements at degree granting institutions only.  Not for
+ * government, commercial, or other organizational use.
+ * File: AutoCodeControl.c
+ *
+ * MATLAB Coder version            : 5.3
+ * C/C++ source code generated on  : 23-Oct-2022 18:35:10
+ */
+
+/* Include Files */
+#include "AutoCodeControl.h"
+#include "coder_posix_time.h"
+#include <math.h>
+
+/* Variable Definitions */
+static const double dv[153] = {
+    1.0, 0.0,  1.0,  1.0, 0.0,  1.0,  0.0,  0.0,  1.0,  0.0,  1.0,  0.0,  1.0,
+    0.0, 1.0,  1.0,  0.0, 1.0,  2.1,  2.0,  6.0,  9.9,  11.0, 10.0, 7.9,  8.0,
+    4.1, 3.0,  4.1,  4.0, 10.0, 10.0, 6.0,  2.0,  9.0,  2.1,  1.0,  2.0,  2.6,
+    2.5, 4.9,  5.1,  4.0, 5.6,  5.5,  7.9,  9.0,  10.5, 12.0, 10.0, 9.0,  1.0,
+    1.0, 6.0,  10.0, 1.0, 11.0, 1.0,  1.0,  4.0,  1.0,  3.0,  1.0,  10.0, 1.5,
+    6.0, 2.0,  1.0,  2.0, 1.0,  2.0,  1.5,  1.0,  5.0,  1.0,  0.0,  4.5,  0.0,
+    8.0, 0.0,  9.0,  1.0, 10.0, 10.0, 1.0,  0.0,  1.0,  1.0,  1.0,  0.0,  0.0,
+    0.0, -1.0, -1.0, 0.0, 0.0,  1.0,  1.0,  -1.0, -1.0, -1.0, 0.0,  -1.0, 0.0,
+    0.0, 0.0,  1.0,  1.0, -1.0, 0.0,  0.0,  1.0,  1.0,  0.0,  0.0,  0.0,  0.0,
+    0.0, -1.0, 1.0,  2.0, 6.0,  9.8,  10.8, 11.0, 9.0,  8.0,  4.2,  3.0,  3.0,
+    3.8, 10.1, 10.0, 6.0, 2.0,  1.0,  2.0,  1.0,  2.0,  1.5,  2.5,  5.0,  5.0,
+    4.0, 4.5,  5.3,  7.6, 9.0,  9.0,  12.0, 10.0, 10.0, 9.0};
+
+static const signed char iv[9] = {0, 1, 0, -1, 0, 0, 9, -1, 1};
+
+/* Function Definitions */
+/*
+ * UNTITLED6 Summary of this function goes here
+ *    Detailed explanation goes here
+ *
+ * Arguments    : const double X[3]
+ *                double U[2]
+ * Return Type  : void
+ */
+void AutoCodeControl(const double X[3], double U[2])
+{
+  double D[3];
+  double Rcar;
+  double absxk;
+  double scale;
+  double t;
+  int controlIndex;
+  int resetIntegral;
+  controlIndex = 0;
+  /* UNTITLED4 Summary of this function goes here */
+  /*    Detailed explanation goes here */
+  absxk = (X[0] - 1.0) * 0.0 + -(X[1] - 2.0);
+  if (absxk < 0.0) {
+    absxk = -1.0;
+  } else if (absxk > 0.0) {
+    absxk = 1.0;
+  } else if (absxk == 0.0) {
+    absxk = 0.0;
+  }
+  if (absxk > 0.0) {
+    controlIndex = 1;
+    resetIntegral = 1;
+  } else {
+    resetIntegral = 0;
+  }
+  if (dv[controlIndex] == 0.0) {
+    /* UNTITLED7 Summary of this function goes here */
+    /*    Detailed explanation goes here */
+    /* persistent */
+    /*  persistent */
+    scale = 3.3121686421112381E-170;
+    absxk = fabs(1.0 - X[0]);
+    if (absxk > 3.3121686421112381E-170) {
+      Rcar = 1.0;
+      scale = absxk;
+    } else {
+      t = absxk / 3.3121686421112381E-170;
+      Rcar = t * t;
+    }
+    absxk = fabs(9.0 - X[1]);
+    if (absxk > scale) {
+      t = scale / absxk;
+      Rcar = Rcar * t * t + 1.0;
+      scale = absxk;
+    } else {
+      t = absxk / scale;
+      Rcar += t * t;
+    }
+    Rcar = scale * sqrt(Rcar);
+    /* ki = 0.5; % for testing */
+    if (resetIntegral == 1) {
+      absxk = 0.0;
+    } else {
+      absxk = (Rcar - 1.0) / 0.1;
+    }
+    /* set the steering angle with PD controller to steer towards line */
+    U[1] = (Rcar - 1.0) * 0.4 + 0.5 * absxk;
+    U[0] = 1.0;
+    /* velocity */
+    /* persistent */
+  } else {
+    /*  persistent */
+    /* create the transformation matrix world to line */
+    absxk = X[0];
+    scale = X[1];
+    for (controlIndex = 0; controlIndex < 3; controlIndex++) {
+      D[controlIndex] = ((double)iv[controlIndex] * absxk +
+                         (double)iv[controlIndex + 3] * scale) +
+                        (double)iv[controlIndex + 6];
+    }
+    /* -0.4 */
+    /*  -0.5 */
+    /* set the steering angle with PD controller to steer towards line */
+    U[1] = D[1] * -0.4 + -0.5 * (D[1] / 0.1);
+    U[0] = 1.0;
+    /* velocity */
+    /* persistent */
+  }
+}
+
+/*
+ * Arguments    : void
+ * Return Type  : void
+ */
+void AutoCodeControl_initialize(void)
+{
+}
+
+/*
+ * Arguments    : void
+ * Return Type  : void
+ */
+void AutoCodeControl_terminate(void)
+{
+  /* (no terminate code required) */
+}
+
+/*
+ * UNTITLED4 Summary of this function goes here
+ *    Detailed explanation goes here
+ *
+ * Arguments    : double X[3]
+ *                const double U[2]
+ * Return Type  : void
+ */
+void AutoCodeEstimatePos(double X[3], const double U[2])
+{
+  double d;
+  /* global */
+  d = sin(X[2]);
+  /* X = X_dot * dt + X */
+  X[0] += U[0] * cos(X[2]) * 0.1;
+  /* x velocity * dt + current x_location */
+  X[1] += U[0] * d * 0.1;
+  /* y velocity * dt + current y_location */
+  X[2] += U[0] * tan(U[1]) / 0.27 * 0.1;
+  /* d_thetaC * dt + current thetaC */
+}
+
+/*
+ * UNTITLED3 Summary of this function goes here
+ *    Detailed explanation goes here
+ *
+ * Arguments    : double X[3]
+ *                double U[2]
+ * Return Type  : void
+ */
+void AutoCodeInitialize(double X[3], double U[2])
+{
+  X[0] = 1.1;
+  X[1] = 8.0;
+  X[2] = -1.5707963267948966;
+  /*  sample data pwm, speed; */
+  /*  sample data pwm, angle */
+  /* set the initial angle of the car */
+  /* x, y, thetaC */
+  U[0] = 1.0;
+  U[1] = 0.0;
+  /* , vel, thetaS */
+}
+
+/*
+ * UNTITLED9 Summary of this function goes here
+ *    Detailed explanation goes here
+ *
+ * Arguments    : const double U[2]
+ *                double PWM[2]
+ * Return Type  : void
+ */
+void AutoCodeSetMotorPWM(const double U[2], double PWM[2])
+{
+  double steerCurve;
+  int steerCurvePWM;
+  /*  sample data pwm, speed; */
+  /*  sample data pwm, angle */
+  steerCurvePWM = 0;
+  steerCurve = 57.295779513082323 * U[1];
+  while ((steerCurve < -180.0) || (steerCurve > 180.0)) {
+    if (steerCurve < -180.0) {
+      steerCurve += 360.0;
+    } else if (steerCurve > 180.0) {
+      steerCurve -= 360.0;
+    }
+  }
+  steerCurve += 90.0;
+  if (steerCurve > 130.0) {
+    steerCurvePWM = 88;
+  } else if (steerCurve < 45.0) {
+    steerCurvePWM = 60;
+  }
+  PWM[0] = 0.0;
+  PWM[1] = steerCurvePWM;
+}
+
+/*
+ * This script will load a car accelerating from 0 over the course of 10
+ *  seconds
+ *
+ * Arguments    : void
+ * Return Type  : void
+ */
+void AutoCodeTopLevel(void)
+{
+  coderTimespec b_timespec;
+  double X[3];
+  double X_dot[3];
+  double U[2];
+  double unusedExpr[2];
+  double Rcar;
+  double X_idx_1;
+  double absxk;
+  double b_t;
+  double scale;
+  int controlIndex;
+  int resetIntegral;
+  int t;
+  AutoCodeInitialize(X, U);
+  /* global */
+  /*      oldPos = PriorityQueue(1); */
+  b_timespec.tv_sec = 0.0;
+  b_timespec.tv_nsec = 1.0E+8;
+  for (t = 0; t < 201; t++) {
+    /* while 1 */
+    /* UNTITLED4 Summary of this function goes here */
+    /*    Detailed explanation goes here */
+    /* global */
+    /* X = X_dot * dt + X */
+    b_t = cos(X[2]) * 0.1 + X[0];
+    X[0] = b_t;
+    /* x velocity * dt + current x_location */
+    X_idx_1 = sin(X[2]) * 0.1 + X[1];
+    X[1] = X_idx_1;
+    /* y velocity * dt + current y_location */
+    X[2] += tan(U[1]) / 0.27 * 0.1;
+    /* d_thetaC * dt + current thetaC */
+    /* X = AutoCodeUpdatePosPozyx(X, oldPos, pozyxInput); */
+    /* UNTITLED6 Summary of this function goes here */
+    /*    Detailed explanation goes here */
+    controlIndex = 0;
+    /* UNTITLED4 Summary of this function goes here */
+    /*    Detailed explanation goes here */
+    absxk = (b_t - 1.0) * 0.0 + -(X_idx_1 - 2.0);
+    if (absxk < 0.0) {
+      absxk = -1.0;
+    } else if (absxk > 0.0) {
+      absxk = 1.0;
+    } else if (absxk == 0.0) {
+      absxk = 0.0;
+    }
+    if (absxk > 0.0) {
+      controlIndex = 1;
+      resetIntegral = 1;
+    } else {
+      resetIntegral = 0;
+    }
+    if (dv[controlIndex] == 0.0) {
+      /* UNTITLED7 Summary of this function goes here */
+      /*    Detailed explanation goes here */
+      /* persistent */
+      /*  persistent */
+      scale = 3.3121686421112381E-170;
+      absxk = fabs(1.0 - b_t);
+      if (absxk > 3.3121686421112381E-170) {
+        Rcar = 1.0;
+        scale = absxk;
+      } else {
+        b_t = absxk / 3.3121686421112381E-170;
+        Rcar = b_t * b_t;
+      }
+      absxk = fabs(9.0 - X_idx_1);
+      if (absxk > scale) {
+        b_t = scale / absxk;
+        Rcar = Rcar * b_t * b_t + 1.0;
+        scale = absxk;
+      } else {
+        b_t = absxk / scale;
+        Rcar += b_t * b_t;
+      }
+      Rcar = scale * sqrt(Rcar);
+      /* ki = 0.5; % for testing */
+      if (resetIntegral == 1) {
+        absxk = 0.0;
+      } else {
+        absxk = (Rcar - 1.0) / 0.1;
+      }
+      /* set the steering angle with PD controller to steer towards line */
+      U[1] = (Rcar - 1.0) * 0.4 + 0.5 * absxk;
+      U[0] = 1.0;
+      /* velocity */
+      /* persistent */
+    } else {
+      /*  persistent */
+      /* create the transformation matrix world to line */
+      for (controlIndex = 0; controlIndex < 3; controlIndex++) {
+        X_dot[controlIndex] = ((double)iv[controlIndex] * b_t +
+                               (double)iv[controlIndex + 3] * X_idx_1) +
+                              (double)iv[controlIndex + 6];
+      }
+      /* -0.4 */
+      /*  -0.5 */
+      /* set the steering angle with PD controller to steer towards line */
+      U[1] = X_dot[1] * -0.4 + -0.5 * (X_dot[1] / 0.1);
+      U[0] = 1.0;
+      /* velocity */
+      /* persistent */
+    }
+    AutoCodeSetMotorPWM(U, unusedExpr);
+    /*          if(counter > 2/dt) */
+    /*              oldPos.remove(oldPos.peek()); */
+    /*          end */
+    /*          oldPos.insert([counter, X(1), X(2)]); */
+    coderTimeSleep(&b_timespec);
+  }
+}
+
+/*
+ * File trailer for AutoCodeControl.c
+ *
+ * [EOF]
+ */
