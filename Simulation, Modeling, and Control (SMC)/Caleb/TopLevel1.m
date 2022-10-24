@@ -6,7 +6,7 @@ global dt;
 oldPos = PriorityQueue(1);
 counter = 0;
 X_bar = SensorModel(X, U);
-%for t = 0:dt:8
+%for t = 0:dt:20
 while 1
     clf; %comment out for plotting 
     X_bar = doPositionUncert(X_bar, oldPos);

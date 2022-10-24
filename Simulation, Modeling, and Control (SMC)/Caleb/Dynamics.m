@@ -2,7 +2,7 @@ function X = Dynamics(U, X) %#codegen
 %UNTITLED3 Summary of this function goes here
 %   Detailed explanation goes here
 global dt;
-dt = 0.01;
+
 v = U(1);
 thetaS = U(2);
 

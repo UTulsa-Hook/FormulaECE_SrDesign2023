@@ -1,14 +1,6 @@
-function [U, PWMtoSend] = MotorModels(U_bar)
-%MotorModels This function takes in duty cycle and outputs v, thetaS
+function PWM = SetMotorPWM(U)
+%UNTITLED9 Summary of this function goes here
 %   Detailed explanation goes here
-global includeUncertainty;
-global sigmaSteering;
-global sigmaDrive;
-global driveTable;
-global steerTable;
-persistent Ubar_hold;
-persistent uncert;
-
 driveCurvePWM = [];
 steerCurvePWM = [];
 
@@ -58,24 +50,7 @@ elseif(steerCurve < 45)
 end
 
 
-
-if(((driveCurvePWM >= 78) && (driveCurvePWM <= 84)) && ((steerCurvePWM <= 88) && (steerCurvePWM >= 60)))
-    % check to see if we have a valid PWM 
-
-else
-    U = [0 0];
-    print('An error occured in motor model. U_bar = %d: %d' + driveCurve + steerCurve);
-end
-
-if(includeUncertainty)
-    if(U_bar ~= Ubar_hold)
-        uncert(1) = normrnd(0, sigmaDrive);
-        uncert(2) = normrnd(0, sigmaSteering);
-    end
-end
-rad2deg(U(2))
 U = U + uncert;
 Ubar_hold = U_bar;
 PWMtoSend = [driveCurvePWM, steerCurvePWM];
-
 end

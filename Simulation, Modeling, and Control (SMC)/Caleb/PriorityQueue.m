@@ -80,7 +80,7 @@ classdef PriorityQueue < handle
                         obj.Size = obj.Size - 1;
                     end
                 end
-                obj.Data = obj.Data(~cellfun('isempty',obj.Data)); % remove empty element from cell array
+                %obj.Data = obj.Data(~cellfun('isempty',obj.Data)); % remove empty element from cell array
             else
                 node = obj.Data{1};
                 obj.Data{1} = obj.Data{obj.Size}; % replace root with last element
