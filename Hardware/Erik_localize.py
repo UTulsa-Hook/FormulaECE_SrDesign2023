@@ -8,6 +8,10 @@ of the Pozyx device both locally and remotely. Follow the steps to correctly set
 parameters and upload this sketch. Watch the coordinates change as you move your device around!
 """
 from time import sleep
+from datetime import datetime
+read = datetime.now()
+write = datetime.now()
+print(read)
 
 from pypozyx import (POZYX_POS_ALG_UWB_ONLY, POZYX_3D, Coordinates, POZYX_SUCCESS, PozyxConstants, version,
                      DeviceCoordinates, PozyxSerial, get_first_pozyx_serial_port, SingleRegister, DeviceList, PozyxRegisters)
@@ -64,11 +68,10 @@ class ReadyToLocalize(object):
         network_id = self.remote_id
         if network_id is None:
             network_id = 0
-        print("POS ID {}, x(mm): {pos.x} y(mm): {pos.y} z(mm): {pos.z}".format(
-            "0x%0.4x" % network_id, pos=position))
-        if self.osc_udp_client is not None:
-            self.osc_udp_client.send_message(
-                "/position", [network_id, int(position.x), int(position.y), int(position.z)])
+
+        write = datetime.now()-read
+        print("POS ID {}, x(mm): {pos.x} y(mm): {pos.y} z(mm): {pos.z} time: {time}".format(
+            "0x%0.4x" % network_id, pos=position, time=write))
 
     def printPublishErrorCode(self, operation):
         """Prints the Pozyx's error and possibly sends it as a OSC packet"""
@@ -77,22 +80,18 @@ class ReadyToLocalize(object):
         if network_id is None:
             self.pozyx.getErrorCode(error_code)
             print("LOCAL ERROR %s, %s" % (operation, self.pozyx.getErrorMessage(error_code)))
-            if self.osc_udp_client is not None:
-                self.osc_udp_client.send_message("/error", [operation, 0, error_code[0]])
+
             return
         status = self.pozyx.getErrorCode(error_code, self.remote_id)
         if status == POZYX_SUCCESS:
             print("ERROR %s on ID %s, %s" %
                   (operation, "0x%0.4x" % network_id, self.pozyx.getErrorMessage(error_code)))
-            if self.osc_udp_client is not None:
-                self.osc_udp_client.send_message(
-                    "/error", [operation, network_id, error_code[0]])
+
         else:
             self.pozyx.getErrorCode(error_code)
             print("ERROR %s, couldn't retrieve remote error code, LOCAL ERROR %s" %
                   (operation, self.pozyx.getErrorMessage(error_code)))
-            if self.osc_udp_client is not None:
-                self.osc_udp_client.send_message("/error", [operation, 0, -1])
+
             # should only happen when not being able to communicate with a remote Pozyx.
 
     def setAnchorsManual(self, save_to_flash=False):
@@ -182,4 +181,5 @@ if __name__ == "__main__":
     r = ReadyToLocalize(pozyx, osc_udp_client, anchors, algorithm, dimension, height, remote_id)
     r.setup()
     while True:
+        read = datetime.now()
         r.loop()
