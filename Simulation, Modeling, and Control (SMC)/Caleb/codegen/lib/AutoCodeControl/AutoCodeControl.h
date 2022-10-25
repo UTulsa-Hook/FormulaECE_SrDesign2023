@@ -5,7 +5,7 @@
  * File: AutoCodeControl.h
  *
  * MATLAB Coder version            : 5.3
- * C/C++ source code generated on  : 23-Oct-2022 18:35:10
+ * C/C++ source code generated on  : 24-Oct-2022 14:58:55
  */
 
 #ifndef AUTOCODECONTROL_H
@@ -21,15 +21,8 @@ extern "C" {
 #endif
 
 /* Function Declarations */
-extern void AutoCodeInitialize(double X[3], double U[2]);
-extern void AutoCodeEstimatePos(double X[3], double U[2]);
-extern double AutoCodeCheckHalfPlane(double X[3]);
-extern void AutoCodeControl(double X[3], double U[2]);
-extern void AutoCodeControlCircle(double X[3], int resetIntegral[1]);
-extern void AutoCodeControlLine(double X[3]);
-extern void AutoCodeSetMotorPWM(double U[2], double PWM[2]);
-extern void AutoCodeUpdatePosPozyx(double X[3], double pozyxInput[2], int counter);
-extern void AutoCodeTopLevel(void);
+extern void AutoCodeControl(const double X[3], double U[2]);
+
 #ifdef __cplusplus
 }
 #endif

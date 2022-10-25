@@ -2,10 +2,10 @@
  * Academic License - for use in teaching, academic research, and meeting
  * course requirements at degree granting institutions only.  Not for
  * government, commercial, or other organizational use.
- * File: main.c
+ * File: main.h
  *
  * MATLAB Coder version            : 5.3
- * C/C++ source code generated on  : 24-Oct-2022 14:58:55
+ * C/C++ source code generated on  : 23-Oct-2022 18:35:10
  */
 
 /*************************************************************************/
@@ -33,80 +33,28 @@
 /*                                                                       */
 /*************************************************************************/
 
+#ifndef MAIN_H
+#define MAIN_H
+
 /* Include Files */
-#include "main.h"
-#include "AutoCodeControl.h"
-#include "AutoCodeControl_terminate.h"
+#include "rtwtypes.h"
+#include <stddef.h>
+#include <stdlib.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* Function Declarations */
-static void argInit_1x3_real_T(double result[3]);
+extern int main(int argc, char **argv);
 
-static double argInit_real_T(void);
-
-static void main_AutoCodeControl(void);
-
-/* Function Definitions */
-/*
- * Arguments    : double result[3]
- * Return Type  : void
- */
-static void argInit_1x3_real_T(double result[3])
-{
-  int idx1;
-  /* Loop over the array to initialize each element. */
-  for (idx1 = 0; idx1 < 3; idx1++) {
-    /* Set the value of the array element.
-Change this value to the value that the application requires. */
-    result[idx1] = argInit_real_T();
-  }
+#ifdef __cplusplus
 }
+#endif
 
+#endif
 /*
- * Arguments    : void
- * Return Type  : double
- */
-static double argInit_real_T(void)
-{
-  return 0.0;
-}
-
-/*
- * Arguments    : void
- * Return Type  : void
- */
-static void main_AutoCodeControl(void)
-{
-  double dv[3];
-  double U[2];
-  /* Initialize function 'AutoCodeControl' input arguments. */
-  /* Initialize function input argument 'X'. */
-  /* Call the entry-point 'AutoCodeControl'. */
-  argInit_1x3_real_T(dv);
-  AutoCodeControl(dv, U);
-}
-
-/*
- * Arguments    : int argc
- *                char **argv
- * Return Type  : int
- */
-int main(int argc, char **argv)
-{
-  (void)argc;
-  (void)argv;
-  /* The initialize function is being called automatically from your entry-point
-   * function. So, a call to initialize is not included here. */
-  /* Invoke the entry-point functions.
-You can call entry-point functions multiple times. */
-  main_AutoCodeControl();
-  /* Terminate the application.
-You do not need to do this more than one time. */
-  AutoCodeControl_terminate();
-  return 0;
-}
-
-/*
- * File trailer for main.c
+ * File trailer for main.h
  *
  * [EOF]
  */
