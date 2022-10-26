@@ -1,7 +1,7 @@
 Initialize();
 global dt;
-global Scale
-Scale = 2.5;
+global Scale;
+
 XBar = SensorModel(X, U);
 
 while 1
@@ -13,4 +13,3 @@ while 1
     %Plotting(X,XBar,U,t);
     pause(dt);
 end
-

@@ -1,5 +1,4 @@
 function [car] = drawChassis(originPt, forwardDist, backDist, width, thetaC, Scale)
-global Scale;
 
 %drawChassis
 

@@ -1,5 +1,6 @@
 function drawChassis(originPt, forwardDist, backDist, width, thetaC, scale)
-%drawChassis draws the chassis
+%draw the car
+
 X = [-backDist, -backDist, forwardDist, forwardDist];
 Y = [-.5*width, .5*width, .5*width, -.5*width];
 % X = [originPt(1)-backDist, originPt(1)-backDist, originPt(1)+forwardDist, originPt(1)+forwardDist];

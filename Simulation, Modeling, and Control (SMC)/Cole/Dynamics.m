@@ -2,7 +2,6 @@ function X = Dynamics(U, X)
 global dt
 global Scale
 
-dt = 0.01;
 velocity = U(1);
 thetaDot = U(2);
 theta = X(3);
@@ -14,5 +13,5 @@ X(2) = X_dot(2) * dt + X(2);
 X(3) = X_dot(3) * dt + X(3);
 
 drawPoolEnviroment()
-drawCar([X(1), X(2)], X(3), U(2), 5);
+drawCar([X(1), X(2)], X(3), U(2), Scale);
 end

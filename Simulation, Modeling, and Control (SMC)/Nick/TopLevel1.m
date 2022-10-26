@@ -2,12 +2,24 @@
 % seconds
 Initialize();
 %scale = 5; %scale up car to see kinematics in motion
+oldPos = PriorityQueue(1);
 X_bar = SensorModel(X, U);
+counter = 0;
+t = 0;
 while true
     clf;
-    U = Control(X_bar);
-    X = Dynamics(U, X);
+    X_bar = doPositionUncert(X_bar, oldPos);
+    U_bar = Control(X_bar);
+    %U = Control(X_bar); used for testing/plotting
+    [U, PWMToSend] = MotorModels(U_bar);
+    X = Dynamics(U, X); % used for testing/plotting
     X_bar = SensorModel(X,U);
     %Plotting(X, X_bar, U, t);
+    if(counter> 2 /dt);
+        oldPos.remove(oldPos.peek());
+    end
+    oldPos.insert([counter, X_bar(1), X_bar(2)]);
+    counter = counter +1;
     pause(dt);
+    t = t + dt;
 end

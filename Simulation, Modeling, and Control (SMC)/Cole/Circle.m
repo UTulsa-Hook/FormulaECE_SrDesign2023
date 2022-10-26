@@ -1,14 +1,12 @@
 function U = Circle(XBar, resetIntegral)
-%UNTITLED3 Summary of this function goes here
-%   Detailed explanation goes here
     global Array;
     global Index;
     global velocity;
     global dt;
-    persistent oldD;
-    persistent integralFactor;
-    persistent integralPlot;
-    persistent t;
+    persistent oldD
+    persistent integralFactor
+    persistent integralPlot
+    persistent t
 
     plotting = false;
 
@@ -19,55 +17,50 @@ function U = Circle(XBar, resetIntegral)
     end
 
     if(isempty(oldD))
-        oldD = 0;
-        integralFactor = 0;
+        oldD = 0
+        integralFactor = 0
     end
 
     if(resetIntegral == 1)
-        integralFactor = 0;
+        integralFactor = 0
     end
 
     x = XBar(1);
     y = XBar(2);
     thetaC = XBar(3);
 
-    lam = Array(Index,5);
-    Rcirc = Array(Index,4);
-    c = [Array(Index,2); Array(Index,3)];
+    lam = Array(Index,5)
+    Rcirc = Array(Index,4)
+    c = [Array(Index,2); Array(Index,3)]
     Rcar = norm(c - [x;y]);
 
     error = Rcar - Rcirc;
 
-    if(Index == 14)
-        ki = 0.0004;
-    elseif(Index == 7)
-        ki = 0.0002;
-    else
-        ki = 0.00035;
-    end
-
     if(lam == 0)
-        kp = -0.4;
-        kd = -0.5;
-        ki = -ki;
+        kp = -0.4
+        kd = -0.5
+        ki = -1.5
     else
-        kp = 0.4;
-        kd = 0.5;
+        kp = 0.4
+        kd = 0.5
+        ki = 1.5
     end
 
     if(resetIntegral == 1)
-        deriv = 0;
+        deriv = 0
     else
-        deriv = (error-oldD)/dt;
+        deriv = (error-oldD)/dt
     end
 
-    %set the steering angle with PD controller to steer towards line
+    %set the steering angle with PID controller to steer towards line
     thetaDot = error*kp + integralFactor * ki + kd*deriv;
     U(1) = velocity;
     U(2) = thetaDot; 
     oldD = error;
-    integralFactor = integralFactor + error*dt;
+    integralFactor = integralFactor + error*dt
+    error = error
 
+    %Attempt to plot failed
     if(plotting)
         if t == 0
             integralPlot = plot(t, integralFactor, 'k')
