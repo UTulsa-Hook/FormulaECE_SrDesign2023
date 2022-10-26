@@ -10,9 +10,10 @@
 
 /* Include Files */
 #include <math.h>
-#include <time.h>
+#include "comms.h"
 #include <stdlib.h>
 #include <stdio.h>
+#define BUFFSIZE 512
 /* Variable Definitions */
 int controlIndex = 0;
 double controlArray[17][9] = {
@@ -44,14 +45,40 @@ double steerTable[15][2] = {
 double dt = .01;
 double v = 1;
 int counter = 0;
-//Queue q;
+//communication
+#define INFILENAME "pytoc"
+#define OUTFILENAME "ctopy"
+
+struct Pipes openPipes() {
+    struct Pipes ret = {0,0};
+    if ((ret.in = open(INFILENAME, O_RDONLY)) < 0) {
+        fprintf(stderr,"Error: open infile");
+    	return ret;
+    }
+
+    if ((ret.out = open(OUTFILENAME, O_WRONLY)) < 0) {
+        fprintf(stderr,"Error: open outfile");
+    	return ret;
+	}
+    return ret;
+}
+int readInPipe(struct Pipes file, char *buf, int bufsize) {
+    return read(file.in, buf, bufsize);
+}
+
+void writeOutPipe(struct Pipes file, char *outbuf, int bufsize) {
+	write(file.out, outbuf, bufsize);
+}
+
+void closePipes(struct Pipes file) {
+    unlink(INFILENAME);
+    unlink(OUTFILENAME);
+    close(file.in);
+    close(file.out);
+}
+//end comm
 double pozyxInput[2];
-int resetIntegral;
 double X_old_predicted[2];
-
-double deriv[1] = {0};
-
-double angle;
 
 /* Queue */
 struct node
@@ -69,6 +96,7 @@ void serch(int index, double X_old_predicted[2]); // Function used to display al
 int size();
 
 double out[2] = {0, 0};
+
 void insert(double pozInput[3])
 {
 struct node *temp;
@@ -147,7 +175,8 @@ void AutoCodeControl(double X[3], double U[2]);
 void AutoCodeControlCircle(double X[3], double U[2], int resetIntegral);
 void AutoCodeControlLine(double X[3], double U[2]);
 void AutoCodeUpdatePosPozyx(double X[3], double pozyxInput[2], int counter);
-void AutoCodeSetMotorPWM(double U[2], double PWM[2]);
+void AutoCodeSetMotorPWM(double U[2], int PWM[2]);
+void AutoCodeEncoder(double encoderData, double U[2]);
 
 void main(){
   AutoCodeTopLevel();
@@ -157,18 +186,42 @@ void AutoCodeTopLevel(void)
 {
   double X[3];
   double U[2];
-  double PWM[2];
-  double samplePozyxInput[2] = {0,0};
+  int PWM[2];
+  double samplePozyxInput[2] = {X[0] + .4,X[1] + .1};
+  double encoderData;
+  //comms
+  double heading;
+	double posx;
+	double posy;
+  struct Pipes pip;
+	pip = openPipes();
+	char buf[BUFFSIZE] = {"2,3,4"};
+	char outbuf[BUFFSIZE] = {0};
   AutoCodeInitialize(X, U);
+
   while(1){
-    printf("X: %.2f, Y: %.2f, Heading: %.2f, Velocity: %.2f, Steering angle: %.2f\n",X[0],X[1],X[2],U[0],U[1]);
+    //printf("X: %.2f, Y: %.2f, Heading: %.2f, Velocity: %.2f, Steering angle: %.2f\n",X[0],X[1],X[2],U[0],U[1]);
+    //AutoCodeEncoder(encoderData, U);
+    readInPipe(pip, buf, BUFFSIZE);
+    if (buf[0] != 0x0){
+    sscanf(strtok(buf, ","), "%lf", &posx);
+		printf("%.4lf\n", posx);
+		sscanf(strtok(NULL, ","), "%lf", &posy);
+		printf("%.4lf\n", posy);
+		sscanf(strtok(NULL, ","), "%lf", &heading);
+		printf("%.4lf\n", heading);
+
+		}
+    double pozyxInfo[2] = {posx, posy};
+
     AutoCodeEstimatePos(X, U);
     AutoCodeUpdatePosPozyx(X, samplePozyxInput, counter);
-    //printf("X: %.2f, Y: %.2f, Heading: %.2f, Velocity: %.2f, Steering angle: %.2f\n",X[0],X[1],X[2],U[0],U[1]);
     AutoCodeControl(X, U);
-    //printf("X: %.2f, Y: %.2f, Heading: %.2f, Velocity: %.2f, Steering angle: %.2f\n",X[0],X[1],X[2],U[0],U[1]);
+    
     AutoCodeSetMotorPWM(U, PWM);
-    //printf("X: %.2f, Y: %.2f, Heading: %.2f, Velocity: %.2f, Steering angle: %.2f\n",X[0],X[1],X[2],U[0],U[1]);
+    sprintf(outbuf, "%d,%d", PWM[0], PWM[1]);
+    writeOutPipe(pip, outbuf, BUFFSIZE);
+    
     if(counter > 2/dt){
       delet();
     }
@@ -185,6 +238,27 @@ void AutoCodeInitialize(double X[3], double U[2])
   X[2] = 4.71238898038469;
   U[0] = 1.0;
   U[1] = 0.0;
+}
+void AutoCodeEncoder(double encoderData, double U[2]){
+  static int counter;
+  static float buffer;
+  while(counter < 3)
+  {
+    if (0 < encoderData && encoderData < 500)
+    {
+      buffer += 46.019423 / encoderData;
+      counter += 1;
+    }
+  }
+
+  if (counter == 3)
+  {
+    U[0] = buffer/3;
+    counter = 0;
+  }
+  else{
+    counter = 0;
+  }
 }
 void AutoCodeEstimatePos(double X[3], double U[2])
 {
@@ -205,7 +279,7 @@ void AutoCodeUpdatePosPozyx(double X[3], double pozyxInput[2], int counter){
   double muPosTime = .07;
   double updatePos[2];
   if (size() > 1.9 / dt){
-    int index = (int)muPosTime/dt;
+    int index = -muPosTime/dt;
     serch(counter-index, X_old_predicted);
     updatePos[0] = pozyxInput[0] - X_old_predicted[0];
     updatePos[1] = pozyxInput[1] - X_old_predicted[1];
@@ -314,7 +388,7 @@ void AutoCodeControlLine(double X[3], double U[2])
   U[1] = D * kp + kd*deriv;
   oldD_line = D;
 }
-void AutoCodeSetMotorPWM(double U[2], double PWM[2])
+void AutoCodeSetMotorPWM(double U[2], int PWM[2])
 {
   double steerAnglePWM = 0;
   double driveSpeedPWM = 0;
@@ -361,7 +435,7 @@ void AutoCodeSetMotorPWM(double U[2], double PWM[2])
   }
 
   if(driveSpeedPWM == 0){
-    driveSpeedPWM == 78;
+    driveSpeedPWM = 78;
     U[0] = driveTable[0][1];
   }
   
