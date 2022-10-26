@@ -22,4 +22,6 @@ while true
     counter = counter +1;
     pause(dt);
     t = t + dt;
+    out = sprintf("X: %f, Y: %f, Heading: %f, Velocity: %f, Steering Angle: %f", X(1), X(2), X(3), U(1), U(2));
+    disp(out)
 end

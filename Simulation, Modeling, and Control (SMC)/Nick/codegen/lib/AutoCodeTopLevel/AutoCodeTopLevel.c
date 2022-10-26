@@ -13,6 +13,7 @@
 #include "comms.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #define BUFFSIZE 512
 /* Variable Definitions */
 int controlIndex = 0;
@@ -45,6 +46,27 @@ double steerTable[15][2] = {
 double dt = .01;
 double v = 1;
 int counter = 0;
+//wait 
+int wait_loop0 = 10000/10;
+int wait_loop1 = 6000;
+
+// for microprocessor without timer, if it has a timer refer to vendor documentation and use it instead.
+void wait( int seconds )
+{   // this function needs to be finetuned for the specific microprocessor
+    int i, j, k;
+    for(i = 0; i < seconds; i++)
+    {
+        for(j = 0; j < wait_loop0; j++)
+        {
+            for(k = 0; k < wait_loop1; k++)
+            {   // waste function, volatile makes sure it is not being optimized out by compiler
+                int volatile t = 120 * j * i + k;
+                t = t + 5;
+            }
+        }
+    }
+}
+//end wait
 //communication
 #define INFILENAME "pytoc"
 #define OUTFILENAME "ctopy"
@@ -228,6 +250,7 @@ void AutoCodeTopLevel(void)
     double queueInsert[3] = {counter, X[0],X[1]};
     insert(queueInsert);
     counter +=1; 
+    wait(1);
   }
 }
 
