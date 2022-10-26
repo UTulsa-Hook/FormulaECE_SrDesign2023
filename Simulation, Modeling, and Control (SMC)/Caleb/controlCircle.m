@@ -67,7 +67,7 @@ function U = controlCircle(X_bar, resetIntegral)
     U(1) = velocity; %velocity
     U(2) = thetaS; 
     oldD = error;
-    integralFactor = integralFactor + error*dt
+    integralFactor = integralFactor + error*dt;
 
     if(plotting)
         if t == 0

@@ -11,6 +11,7 @@
 /* Include Files */
 #include <math.h>
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include "comms.h"
 
@@ -34,6 +35,9 @@ struct Pipes openPipes() {
 	}
     return ret;
 }
+
+int wait_loop0 = 10000/10;
+int wait_loop1 = 6000;
 
 /* Variable Definitions */
 int controlIndex = 0;
@@ -121,6 +125,8 @@ void delet(); // Function used to delete the elememt from the queue
 void serch(int index, double out[2]); // Function used to display all the elements in the queue according to FIFO rule
 int size();
 
+void wait(int seconds);
+
 /*
  * UNTITLED6 Summary of this function goes here
  *    Detailed explanation goes here
@@ -195,6 +201,7 @@ void AutoCodeTopLevel(void)
     printf("X: %.2f, Y: %.2f, Heading: %.2f, Velocity: %.2f, Steering Angle: %.2f\n", X[0], X[1], X[2], U[0], U[1]);
     double testAngle = U[1] * 180 / M_PI;
     counter += 1; //(counter %10) == 0
+    wait(1); // wait 0.1 seconds
 
   }
 }
@@ -472,7 +479,7 @@ void AutoCodeUpdatePosPozyx(double X[3], double pozyxInput[2], int counter)
   double updatePos[2];
   if (size() > 1.9 / dt)
   {
-    int index = -muPosTime/dt;
+    int index = muPosTime/dt;
     serch(counter-index, X_old_predicted);
     updatePos[0] = pozyxInput[0] - X_old_predicted[0];
     updatePos[1] = pozyxInput[1] - X_old_predicted[1];
@@ -571,6 +578,23 @@ void closePipes(struct Pipes file) {
     unlink(OUTFILENAME);
     close(file.in);
     close(file.out);
+}
+
+/* Time Delay method*/
+void wait( int seconds )
+{   // this function needs to be finetuned for the specific microprocessor
+    int i, j, k;
+    for(i = 0; i < seconds; i++)
+    {
+        for(j = 0; j < wait_loop0; j++)
+        {
+            for(k = 0; k < wait_loop1; k++)
+            {   // waste function, volatile makes sure it is not being optimized out by compiler
+                int volatile t = 120 * j * i + k;
+                t = t + 5;
+            }
+        }
+    }
 }
 
 
