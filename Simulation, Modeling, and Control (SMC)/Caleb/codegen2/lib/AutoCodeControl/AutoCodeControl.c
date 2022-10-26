@@ -12,7 +12,28 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "comms.h"
 
+#define BUFFSIZE 512
+
+
+/* Hardware interfacing and communication stuff*/
+#define INFILENAME "pytoc"
+#define OUTFILENAME "ctopy"
+
+struct Pipes openPipes() {
+    struct Pipes ret = {0,0};
+    if ((ret.in = open(INFILENAME, O_RDONLY)) < 0) {
+        fprintf(stderr,"Error: open infile");
+    	return ret;
+    }
+
+    if ((ret.out = open(OUTFILENAME, O_WRONLY)) < 0) {
+        fprintf(stderr,"Error: open outfile");
+    	return ret;
+	}
+    return ret;
+}
 
 /* Variable Definitions */
 int controlIndex = 0;
@@ -62,7 +83,7 @@ double steerTable[15][2] = {
   {88, 130}
 }; // % sample data pwm, angle
 
-double dt = 0.02;
+double dt = 0.01;
 double velocity = 1;
 double pozyxInput[2];
 
@@ -78,12 +99,6 @@ struct node
 
 double X_old_predicted[2];
 
-void insert(); // Function used to insert the element into the queue
-void delet(); // Function used to delete the elememt from the queue
-void serch(int index, double out[2]); // Function used to display all the elements in the queue according to FIFO rule
-int size();
-
-
 double x[2];
 double out[2] = {0, 0};
 int sizeMeUpButterCup;
@@ -95,9 +110,17 @@ double AutoCodeCheckHalfPlane(double X[3]);
 void AutoCodeControl(double X[3], double U[2]);
 void AutoCodeControlCircle(double X[3], double U[2], int resetIntegral);
 void AutoCodeControlLine(double X[3], double U[2]);
-void AutoCodeSetMotorPWM(double U[2], float PWM[2]);
+void AutoCodeSetMotorPWM(double U[2], int PWM[2]);
 void AutoCodeUpdatePosPozyx(double X[3], double pozyxInput[2], int counter);
+void AutoCodeEncoder(double U[2], float encoderData);
 void AutoCodeTopLevel(void);
+
+/*Priority Queue Prototypes*/
+void insert(); // Function used to insert the element into the queue
+void delet(); // Function used to delete the elememt from the queue
+void serch(int index, double out[2]); // Function used to display all the elements in the queue according to FIFO rule
+int size();
+
 /*
  * UNTITLED6 Summary of this function goes here
  *    Detailed explanation goes here
@@ -118,27 +141,50 @@ void AutoCodeTopLevel(void)
   double X_dot[3];
   double U[2];
   int counter = 0;
-  float PWM[2];
+  int PWM[2];
+  float encoderData;
   double Rcar;
-  
+
+  /*Stuff to send/receive data for HW interfacing*/
+  struct Pipes pip;
+	pip = openPipes();
+  double heading;
+	double posx;
+	double posy;
+
+	char buf[BUFFSIZE] = {0};
+	char outbuf[BUFFSIZE] = {0};
+  /* END of HW interfacing*/
 
   AutoCodeInitialize(X, U);
 
-  double samplePozyxInput[2] = {X[0]+0.05, X[1]-0.04};
-  /* global */
-  /*      oldPos = PriorityQueue(1); */
-  //b_timespec.tv_sec = 0.0;
-  //b_timespec.tv_nsec = 1.0E+8;
+  //double samplePozyxInput[2] = {X[0]+0.4, X[1]+0.1};
+
   while (1) {
     /* while 1 */
     /* UNTITLED4 Summary of this function goes here */
     /*    Detailed explanation goes here */
     /* global */
     /* X = X_dot * dt + X */
+    readInPipe(pip, buf, BUFFSIZE);
+    if(buf[0] != 0x0)
+    {
+      sscanf(strtok(buf, ","), "%lf", &posx);
+      printf("%.4lf\n", posx);
+      sscanf(strtok(NULL, ","), "%lf", &posy);
+      printf("%.4lf\n", posy);
+      sscanf(strtok(NULL, ","), "%lf", &heading);
+      printf("%.4lf\n", heading);
+    }
+    double pozyxInfo[2] = {posx, posy}; 
+
+    AutoCodeEncoder(U, encoderData);
     AutoCodeEstimatePos(X, U);
-    AutoCodeUpdatePosPozyx(X, samplePozyxInput, counter);
+    AutoCodeUpdatePosPozyx(X, pozyxInfo, counter);
     AutoCodeControl(X, U);
     AutoCodeSetMotorPWM(U, PWM);
+    sprintf(outbuf, "%d,%d",PWM[0],PWM[1]);
+    writeOutPipe(pip, outbuf, BUFFSIZE);
 
     if (counter > 2/dt)
     {
@@ -165,6 +211,40 @@ void AutoCodeInitialize(double X[3], double U[2])
   U[0] = 1.0;
   U[1] = 0.0;
   /* , vel, thetaS */
+}
+
+
+void AutoCodeEncoder(double U[2], float encoderData)
+{
+  static int counter1;
+  static int counter2;
+  static float buffer;
+  encoderData = -1; // for testing
+  while(counter1 < 3 && counter2 < 5)
+  {
+    if (0 < encoderData && encoderData < 500)
+    {
+      buffer += 46.019423 / encoderData;
+      counter1 += 1;
+    }
+    counter2 += 1;
+  }
+
+  if (counter1 == 3)
+  {
+    if (0 < buffer && buffer < 10)
+    {
+      U[0] = buffer/3;
+    }
+    counter1 = 0;
+    counter2 = 0;
+  }
+  else{
+    U[0] = U[0];
+    counter1 = 0;
+    counter2 = 0;  
+  }
+  
 }
 
 
@@ -249,7 +329,7 @@ void AutoCodeControlCircle(double X[3], double U[2], int resetIntegral)
   double Rcar_1 = center[0] - X[0];
   double Rcar_2 = center[1] - X[1];
 
-  double Rcar = sqrt(abs((Rcar_1*Rcar_1+Rcar_2*Rcar_2))); ///(Rcar_1+Rcar_2)
+  double Rcar = sqrt((Rcar_1*Rcar_1+Rcar_2*Rcar_2)); ///(Rcar_1+Rcar_2)
 
   error = Rcar - controlArray[controlIndex][3]; // Rcar - Rcirc
 
@@ -323,7 +403,7 @@ void AutoCodeControlLine(double X[3], double U[2])
 
 }
 
-void AutoCodeSetMotorPWM(double U[2], float PWM[2])
+void AutoCodeSetMotorPWM(double U[2], int PWM[2])
 {
   double steerAngle;
   int steerAnglePWM = 0;
@@ -388,16 +468,16 @@ void AutoCodeSetMotorPWM(double U[2], float PWM[2])
 
 void AutoCodeUpdatePosPozyx(double X[3], double pozyxInput[2], int counter)
 {
-  double muPosTime = 0.7; 
+  double muPosTime = .07; // CHANGE ME PLEASE!! 
   double updatePos[2];
   if (size() > 1.9 / dt)
   {
-    int index = muPosTime/dt;
+    int index = -muPosTime/dt;
     serch(counter-index, X_old_predicted);
     updatePos[0] = pozyxInput[0] - X_old_predicted[0];
     updatePos[1] = pozyxInput[1] - X_old_predicted[1];
-    X[0] += updatePos[0]/10;
-    X[1] += updatePos[1]/10;
+    X[0] += updatePos[0]/100;
+    X[1] += updatePos[1]/100;
   }
 }
 
@@ -475,6 +555,22 @@ int size()
   }
   //printf("%d\n", cnt);
   return cnt;
+}
+
+/*Some communication/HW interfacing stuff*/
+int readInPipe(struct Pipes file, char *buf, int bufsize) {
+    return read(file.in, buf, bufsize);
+}
+
+void writeOutPipe(struct Pipes file, char *outbuf, int bufsize) {
+	write(file.out, outbuf, bufsize);
+}
+
+void closePipes(struct Pipes file) {
+    unlink(INFILENAME);
+    unlink(OUTFILENAME);
+    close(file.in);
+    close(file.out);
 }
 
 
