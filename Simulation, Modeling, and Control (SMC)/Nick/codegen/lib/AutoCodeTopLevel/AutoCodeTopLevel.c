@@ -17,25 +17,41 @@
 #define BUFFSIZE 512
 /* Variable Definitions */
 int controlIndex = 0;
-double controlArray[17][9] = {
-  {1, 1, 9, 1, 2, 0, -1, 1, 2},
-  {0, 2.1, 2.1, 1, 1, 1, 0, 2, 1},
-  {1, 2, 1, 6, 2, 1, 0, 6, 2},
-  {1, 6, 2, 10, 1.5, 1, 0, 9.8, 1.5},
-  {0, 9.9, 2.6, 1, 1, 0, 1, 10.8, 2.5},
-  {1, 11, 2.5, 11, 5, 0, 1, 11, 5},
-  {0, 10, 4.9, 1, 1, 0, -1, 9, 5},
-  {0, 7.9, 5.1, 1, 0, -1, 0, 8, 4},
-  {1, 8, 4, 4, 4.5, -1, 0, 4.2, 4.5},
-  {0, 4.1, 5.6, 1, 0, 0, 1, 3, 5.3},
-  {1, 3, 5.5, 3, 8, 0, 1, 3, 7.6},
-  {0, 4.1, 7.9, 1, 0, 1, 0, 3.8, 9},
-  {1, 4, 9, 10, 9, 1, 0, 10.1, 9},
-  {0, 10, 10.5, 1.5, 1, -1, 0, 10, 12},
-  {1, 10, 12, 6, 10, -1, 0, 6, 10},
-  {1, 6, 10, 2, 10, -1, 0, 2, 10},
-  {0, 2, 9, 1, 1, 0, -1, 1, 9}
-};
+// double controlArray[17][9] = {
+//   {1, 1, 9, 1, 2, 0, -1, 1, 2},
+//   {0, 2.1, 2.1, 1, 1, 1, 0, 2, 1},
+//   {1, 2, 1, 6, 2, 1, 0, 6, 2},
+//   {1, 6, 2, 10, 1.5, 1, 0, 9.8, 1.5},
+//   {0, 9.9, 2.6, 1, 1, 0, 1, 10.8, 2.5},
+//   {1, 11, 2.5, 11, 5, 0, 1, 11, 5},
+//   {0, 10, 4.9, 1, 1, 0, -1, 9, 5},
+//   {0, 7.9, 5.1, 1, 0, -1, 0, 8, 4},
+//   {1, 8, 4, 4, 4.5, -1, 0, 4.2, 4.5},
+//   {0, 4.1, 5.6, 1, 0, 0, 1, 3, 5.3},
+//   {1, 3, 5.5, 3, 8, 0, 1, 3, 7.6},
+//   {0, 4.1, 7.9, 1, 0, 1, 0, 3.8, 9},
+//   {1, 4, 9, 10, 9, 1, 0, 10.1, 9},
+//   {0, 10, 10.5, 1.5, 1, -1, 0, 10, 12},
+//   {1, 10, 12, 6, 10, -1, 0, 6, 10},
+//   {1, 6, 10, 2, 10, -1, 0, 2, 10},
+//   {0, 2, 9, 1, 1, 0, -1, 1, 9}
+// };
+//line
+double controlArray[1][9] = {
+  {1, 10.927, 9.55, 5.366, 9.464, -1, 0, -100, 0}};
+//circle
+// double controlArray[1][9] = {
+//   {0, 9.415, 9.592, 1.5, 1, 0, 1, 0, 100}}
+//minitrack
+//double controlArray[4][9] = {
+//   {1, 9.352, 11.069, 6.823, 11.054, -1, 0, 6.7, 11.054}, 
+//   {0, 6.857, 9.552, 1.5, 1, 1, 0, 6.9, 8.037}, 
+//   {1, 6.959, 8.037, 9.446, 8.058, 1, 0, 9.4, 8.058},
+//   {0, 9.415, 9.592, 1.5, 1, -1, 0, 9.2, 11.069}
+//};
+
+
+
 double driveTable[4][2] = {{78, .92}, {80, 1.56}, {82, 2.19}, {84, 2.61}}; 
 double steerTable[15][2] = {
   {60, 45}, {62, 45}, {64, 55}, {66, 60},
@@ -43,7 +59,7 @@ double steerTable[15][2] = {
   {76, 95}, {78, 105}, {80, 110}, {82, 115},
   {84, 120}, {86, 125}, {88, 130}
   };
-double dt = .01;
+double dt = .1;
 double v = 1;
 int counter = 0;
 //wait 
@@ -198,7 +214,7 @@ void AutoCodeControlCircle(double X[3], double U[2], int resetIntegral);
 void AutoCodeControlLine(double X[3], double U[2]);
 void AutoCodeUpdatePosPozyx(double X[3], double pozyxInput[2], int counter);
 void AutoCodeSetMotorPWM(double U[2], int PWM[2]);
-void AutoCodeEncoder(double encoderData, double U[2]);
+void AutoCodeEncoder(double U[2], float encoderData);
 
 void main(){
   AutoCodeTopLevel();
@@ -210,14 +226,14 @@ void AutoCodeTopLevel(void)
   double U[2];
   int PWM[2];
   double samplePozyxInput[2] = {X[0] + .4,X[1] + .1};
-  double encoderData;
+  float encoderData;
   //comms
   double heading;
 	double posx;
 	double posy;
   struct Pipes pip;
 	pip = openPipes();
-	char buf[BUFFSIZE] = {"2,3,4"};
+	char buf[BUFFSIZE] = {0};
 	char outbuf[BUFFSIZE] = {0};
   AutoCodeInitialize(X, U);
 
@@ -237,7 +253,7 @@ void AutoCodeTopLevel(void)
     double pozyxInfo[2] = {posx, posy};
 
     AutoCodeEstimatePos(X, U);
-    AutoCodeUpdatePosPozyx(X, samplePozyxInput, counter);
+    //AutoCodeUpdatePosPozyx(X, samplePozyxInput, counter);
     AutoCodeControl(X, U);
     
     AutoCodeSetMotorPWM(U, PWM);
@@ -250,38 +266,49 @@ void AutoCodeTopLevel(void)
     double queueInsert[3] = {counter, X[0],X[1]};
     insert(queueInsert);
     counter +=1; 
-    wait(1);
+    //wait(1);
   }
 }
 
 void AutoCodeInitialize(double X[3], double U[2])
 {
-  X[0] = 1.1;
-  X[1] = 8.0;
-  X[2] = 4.71238898038469;
+  X[0] = 10.9;  //9.3
+  X[1] = 8.5;  //11
+  X[2] = M_PI;
   U[0] = 1.0;
   U[1] = 0.0;
 }
-void AutoCodeEncoder(double encoderData, double U[2]){
-  static int counter;
+void AutoCodeEncoder(double U[2], float encoderData)
+{
+  static int counter1;
+  static int counter2;
   static float buffer;
-  while(counter < 3)
+  encoderData = -1; // for testing
+  while(counter1 < 3 && counter2 < 5)
   {
     if (0 < encoderData && encoderData < 500)
     {
       buffer += 46.019423 / encoderData;
-      counter += 1;
+      counter1 += 1;
     }
+    counter2 += 1;
   }
 
-  if (counter == 3)
+  if (counter1 == 3)
   {
-    U[0] = buffer/3;
-    counter = 0;
+    if (0 < buffer && buffer < 10)
+    {
+      U[0] = buffer/3;
+    }
+    counter1 = 0;
+    counter2 = 0;
   }
   else{
-    counter = 0;
+    U[0] = U[0];
+    counter1 = 0;
+    counter2 = 0;  
   }
+  
 }
 void AutoCodeEstimatePos(double X[3], double U[2])
 {
@@ -409,6 +436,7 @@ void AutoCodeControlLine(double X[3], double U[2])
   deriv = (D - oldD_line)/dt;
   //printf("oldD_line: %.5f D[0][1]: %.5f Deriv: %.5f\n", oldD_line, D[1]), deriv;
   U[1] = D * kp + kd*deriv;
+  U[0] = v;
   oldD_line = D;
 }
 void AutoCodeSetMotorPWM(double U[2], int PWM[2])
@@ -429,7 +457,7 @@ void AutoCodeSetMotorPWM(double U[2], int PWM[2])
   // Scan drive curve
   for(int i = 0; i < sizeof(driveTable) / sizeof(driveTable[0]); i++)
   {
-    if(U[0] - 0.3 < driveTable[i][1] && U[0] + 0.3 > driveTable[i][1])
+    if(abs(U[0] - driveTable[i][1]) < 0.3)
     {
       driveSpeedPWM = driveTable[i][0];
       U[0] = driveTable[i][1];
@@ -440,7 +468,7 @@ void AutoCodeSetMotorPWM(double U[2], int PWM[2])
   // Scan steer curve
   for(int i = 0; i < sizeof(steerTable) / sizeof(steerTable[0]); i++)
   {
-    if(steerAngle - 7 < steerTable[i][1] && steerAngle + 7 > steerTable[i][1])
+    if(abs(steerAngle - steerTable[i][1] ) < 7 )
     {
       steerAnglePWM = steerTable[i][0];
       U[1] = (steerTable[i][1] - 90)/ 57.295579513082323;
