@@ -17,8 +17,8 @@ function [U] = MotorModel(U_bar)
     
     for i = 1:size(driveTable, 1)
         if(isempty(driveCurvePWM) && driveCurve >= 0.9 * driveTable(i, 2) && driveCurve <= 1.1 * driveTable(i, 2))
-            U(1) = driveTable(i,2) % set the velocity to a possible velocity based on curve
-            driveCurvePWM = driveTable(i,1) % output corresponding PWM
+            U(1) = driveTable(i,2); % set the velocity to a possible velocity based on curve
+            driveCurvePWM = driveTable(i,1); % output corresponding PWM
         end
     end
     
@@ -29,8 +29,8 @@ function [U] = MotorModel(U_bar)
 %         end
 %     end
 
-    steerCurvePWM = (steerCurve-214)/-2.8
-     if(steerCurvePWM < 64)
+    steerCurvePWM = (steerCurve-214)/-2.8;
+    if(steerCurvePWM < 64)
             steerCurvePWM = 65;
         elseif(steerCurvePWM > 91)
             steerCurvePWM = 90;
