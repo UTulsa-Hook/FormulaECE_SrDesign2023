@@ -7,9 +7,12 @@ function Plotting(X, X_bar, U, t)
     persistent vel_handle;
     persistent xbar_handle;
     persistent vbar_handle;
-    persistent posError_handle;
+    persistent posError_handlex;
+    persistent posError_handley;
     xbar = X_bar(1);
-    vbar = X_bar(2);
+    ybar = X_bar(2);
+    vbar = U(1);
+
     
     if t == 0
         subplot(2,2,1);
@@ -19,9 +22,9 @@ function Plotting(X, X_bar, U, t)
         xlabel('t (s)')
         ylabel('x pos (m)');
         subplot(2,2,2);
-        ypos_handle = plot(t, X(1), 'k');
+        ypos_handle = plot(t, X(2), 'k');
         hold on
-        xbar_handle = plot(t, xbar, 'r');
+        ybar_handle = plot(t, ybar, 'r');
         xlabel('t (s)')
         ylabel('y pos (m)');
         subplot(2,2,3);
@@ -30,8 +33,11 @@ function Plotting(X, X_bar, U, t)
         vbar_handle = plot(t, vbar, 'r');
         xlabel('t (s)')
         ylabel('vel (m/s)');
-        subplot(2,2,4)
-        posError_handle = plot(t, xbar-X(1), 'k');
+        subplot(2,2,4);
+        posError_handlex = plot(t, xbar-X(1), 'k');
+        hold on
+        posError_handley = plot(t, ybar-X(2), 'r');
+        hold off
         xlabel('t(s)')
         ylabel('pos error (m)')
     else
@@ -40,6 +46,7 @@ function Plotting(X, X_bar, U, t)
         set(vel_handle, 'Xdata', [get(vel_handle,'Xdata') t], 'Ydata', [get(vel_handle,'Ydata') X(3)])
         set(xbar_handle, 'Xdata', [get(xbar_handle,'Xdata') t], 'Ydata', [get(xbar_handle,'Ydata') xbar])
         set(vbar_handle, 'Xdata', [get(vbar_handle,'Xdata') t], 'Ydata', [get(vbar_handle,'Ydata') vbar])
-        set(posError_handle, 'Xdata', [get(posError_handle,'Xdata') t], 'Ydata', [get(posError_handle,'Ydata') xbar-X(1)])
+        set(posError_handlex, 'Xdata', [get(posError_handlex,'Xdata') t], 'Ydata', [get(posError_handlex,'Ydata') xbar-X(1)])
+        set(posError_handley, 'Xdata', [get(posError_handley,'Xdata') t], 'Ydata', [get(posError_handley,'Ydata') ybar-X(2)])
     end
 end

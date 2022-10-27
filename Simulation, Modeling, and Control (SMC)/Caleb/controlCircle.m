@@ -1,13 +1,22 @@
 function U = controlCircle(X_bar, resetIntegral)
 %UNTITLED3 Summary of this function goes here
-%   Detailed explanation goes here
+  %Detailed explanation goes here
     global controlArray;
     global controlIndex;
     global velocity;
     global dt;
-    persistent lineToFollow;
     persistent oldD;
     persistent integralFactor;
+    persistent integralPlot;
+    persistent t;
+
+    plotting = false;
+
+    if(plotting)
+        if(isempty(t))
+            t = 0;
+        end
+    end
     
     if(isempty(oldD))
         oldD = 0;
@@ -35,6 +44,7 @@ function U = controlCircle(X_bar, resetIntegral)
         ki = 0.0002;
     else
         ki = 0.00035;
+        %ki = 0.5; % for testing
     end
 
     if(lambda == 0)
@@ -45,13 +55,29 @@ function U = controlCircle(X_bar, resetIntegral)
         kp = 0.4;
         kd = .5;
     end
-
-    deriv = (error-oldD)/dt;
+    
+    if(resetIntegral == 1)
+        deriv = 0;
+    else
+        deriv = (error-oldD)/dt;
+    end
     
     %set the steering angle with PD controller to steer towards line
     thetaS = error*kp + integralFactor * ki + kd*deriv;
     U(1) = velocity; %velocity
     U(2) = thetaS; 
     oldD = error;
-    integralFactor = integralFactor + error/dt;
+    integralFactor = integralFactor + error*dt
+
+    if(plotting)
+        if t == 0
+            integralPlot = plot(t, integralFactor, 'k')
+            hold on
+            xlabel('t (s)')
+            ylabel('Integral Component of Controller');
+        else
+            set(integralPlot, 'Xdata', [get(integralPlot,'Xdata') t], 'Ydata', [get(integralPlot,'Ydata') integralFactor])
+        end
+        t = t + dt;
+    end
 end
