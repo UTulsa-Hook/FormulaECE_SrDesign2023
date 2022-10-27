@@ -1,8 +1,8 @@
-function drawTire(carLoc, tireOffset, width, radius, thetaC, thetaS,scale)
-%drawTires draws tires
-%patch(X, Y, C)
+function drawTire(carLoc, tireOffset, width, radius, thetaC, thetaS, scale)
+%drawTires... it draws tires.
 
-%tire rotation
+
+%rotation about the car's reference frame at the origin
 X_o = scale * [-radius, -radius, radius, radius];
 Y_o = scale * [-width, width, width, -width];
 theta = thetaS; % The rotation angle
@@ -11,21 +11,21 @@ sth = sin(theta);
 Xrot =  -X_o*cth - Y_o*sth;
 Yrot = -X_o*sth + Y_o*cth;
 
-%translate 
+%translate in the car's reference frame
 translateX = ones(1,size(X_o, 2)) * tireOffset(1);
 translateY = ones(1,size(X_o, 2)) * tireOffset(2);
 
 X_o = Xrot + translateX;
 Y_o = Yrot + translateY;
 
-%rotate wrt world
-theta = thetaC; 
+%rotate in the world's reference frame
+theta = thetaC; % The rotation angle
 cth = cos(theta);
 sth = sin(theta);
 Xrot =  -X_o*cth - Y_o*sth;
 Yrot = -X_o*sth + Y_o*cth;
 
-%translate wrt world
+%translate the points in the world's reference frame
 translateX = ones(1,size(X_o, 2)) * carLoc(1);
 translateY = ones(1,size(X_o, 2)) * carLoc(2);
 
@@ -33,5 +33,5 @@ X_o = Xrot + translateX;
 Y_o = Yrot + translateY;
 
 %draw the tire
-patch(X_o, Y_o, 'k'); 
+patch(X_o, Y_o, 'k');
 end

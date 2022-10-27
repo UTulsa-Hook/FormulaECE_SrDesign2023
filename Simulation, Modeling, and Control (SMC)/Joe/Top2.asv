@@ -1,0 +1,26 @@
+%Car accelerating over 10 seconds
+Initialize();
+global scale;
+global dt;
+
+counter = 0;
+scale = 1;
+X_bar = SensorModel(X, U);
+oldPos = PriorityQueue(1);
+
+
+while 1
+    clf; 
+    X_bar = doPositionUncert(X_bar, oldPos);
+    U_bar = Control(X_bar);
+    U = MotorModels(U_bar);
+    X = Dynamics(U, X);
+    X_bar = SensorModel(X, U);
+    %Plotting(X, X_bar, U, t);
+    if(counter > 2/dt)
+        oldPos.remove(oldPos.peek());
+    end
+    oldPos.insert([conter,X_bar(1), X_bar(2)]);
+    couter = counter +1;
+    pause(dt);
+end
