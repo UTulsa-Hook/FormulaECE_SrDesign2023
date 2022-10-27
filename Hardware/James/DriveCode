@@ -1,0 +1,42 @@
+import time
+from rpi_hardware_pwm import HardwarePWM
+
+if __name__ == '__main__':
+    
+    ServoPwm = HardwarePWM(pwm_channel = 0, hz = 480)
+    ServoDuty = 76
+    ServoPwm.start(ServoDuty)
+    
+    MotorPwm = HardwarePWM(pwm_channel = 1, hz = 480)
+    MotorDuty = 72
+    MotorPwm.start(MotorDuty)
+    
+    while True:
+        
+        drive = input("Drive Time :)\n")
+        
+        if (drive == "w"):
+            MotorPwm.change_duty_cycle(77)
+            time.sleep(.01)
+            
+        if (drive =="s"):
+            MotorPwm.change_duty_cycle(57)
+            time.sleep(.01)
+            
+        if (drive =="d"):
+            ServoPwm.change_duty_cycle(ServoDuty-15)
+            time.sleep(.01)
+            
+        if (drive =="a"):
+            ServoPwm.change_duty_cycle(ServoDuty+15)
+            time.sleep(.01)
+            
+        if (drive == "q"):
+            MotorPwm.change_duty_cycle(72)
+            time.sleep(.01)
+            
+        if (drive =="e"):
+            ServoPwm.change_duty_cycle(ServoDuty)
+            time.sleep(.01)
+            
+        
