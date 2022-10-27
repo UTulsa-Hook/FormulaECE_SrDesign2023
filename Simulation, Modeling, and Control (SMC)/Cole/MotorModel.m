@@ -17,18 +17,27 @@ function [U] = MotorModel(U_bar)
     
     for i = 1:size(driveTable, 1)
         if(isempty(driveCurvePWM) && driveCurve >= 0.9 * driveTable(i, 2) && driveCurve <= 1.1 * driveTable(i, 2))
-            U(1) = driveTable(i,2); % set the velocity to a possible velocity based on curve
-            driveCurvePWM = driveTable(i,1); % output corresponding PWM
+            U(1) = driveTable(i,2) % set the velocity to a possible velocity based on curve
+            driveCurvePWM = driveTable(i,1) % output corresponding PWM
         end
     end
     
-    for i = 1:size(steerTable, 1)
-        if(isempty(steerCurvePWM) && steerCurve >= 0.9 * steerTable(i, 2) && steerCurve <= 1.1 * steerTable(i, 2))
-            U(2) = deg2rad(steerTable(i,2)); % set the velocity to a possible velocity based on curve
-            steerCurvePWM = driveTable(i,1); % output corresponding PWM
+%     for i = 1:size(steerTable, 1)
+%         if(isempty(steerCurvePWM) && steerCurve >= 0.9 * steerTable(i, 2) && steerCurve <= 1.1 * steerTable(i, 2))
+%             U(2) = deg2rad(steerTable(i,2)); % set the velocity to a possible velocity based on curve
+%             steerCurvePWM = driveTable(i,1); % output corresponding PWM
+%         end
+%     end
+
+    steerCurvePWM = (steerCurve-214)/-2.8
+     if(steerCurvePWM < 64)
+            steerCurvePWM = 65;
+        elseif(steerCurvePWM > 91)
+            steerCurvePWM = 90;
         end
-    end
-    
+    U(2) = deg2rad(steerCurve);
+
+   
     if(isempty(driveCurvePWM))
         driveCurvePWM = 80;
         U(1) = U_bar(1);
@@ -38,11 +47,4 @@ function [U] = MotorModel(U_bar)
         steerCurvePWM = 74;
         U(2) = U_bar(2);
     end
-    
-    if((driveCurvePWM >= 77 && driveCurvePWM <= 84) && (steerCurvePWM <= 91 &&...
-            steerCurvePWM >= 62)) % check to see if we have a valid PWM 
-    else
-        U = [0 0];
-        print('An error occured in motor model. U_bar = %d: %d' + driveCurve + steerCurve);
-    end
-    end
+end
