@@ -43,8 +43,8 @@ function U = controlCircle(X_bar, resetIntegral)
     elseif(controlIndex == 7)
         ki = 0.0002;
     else
-        ki = 0.00035;
-        %ki = 0.5; % for testing
+        %ki = 0.00035;
+        ki = 0.05; % for testing
     end
 
     if(lambda == 0)

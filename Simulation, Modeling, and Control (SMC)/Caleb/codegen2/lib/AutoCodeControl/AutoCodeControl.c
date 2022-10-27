@@ -42,25 +42,41 @@ int wait_loop1 = 6000;
 /* Variable Definitions */
 int controlIndex = 0;
 
-double controlArray[17][9] =   {
-  {1, 1, 9, 1, 2, 0, -1, 1, 2}, 
-  {0, 2.1, 2.1, 1, 1, 1, 0, 2, 1},
-  {1, 2, 1, 6, 2, 1, 0, 6, 2},
-  {1, 6, 2, 10, 1.5, 1, 0, 9.8, 1.5},
-  {0, 9.9, 2.6, 1, 1, 0, 1, 10.8, 2.5},
-  {1, 11, 2.5, 11, 5, 0, 1, 11, 5},
-  {0, 10, 4.9, 1, 1, 0, -1, 9, 5},
-  {0, 7.9, 5.1, 1, 0, -1, 0, 8, 4},
-  {1, 8, 4, 4, 4.5, -1, 0, 4.2, 4.5},
-  {0, 4.1, 5.6, 1, 0, 0, 1, 3, 5.3},
-  {1, 3, 5.5, 3, 8, 0, 1, 3, 7.6},
-  {0, 4.1, 7.9, 1, 0, 1, 0, 3.8, 9},
-  {1, 4, 9, 10, 9, 1, 0, 10.1, 9},
-  {0, 10, 10.5, 1.5, 1, -1, 0, 10, 12},
-  {1, 10, 12, 6, 10, -1, 0, 6, 10},
-  {1, 6, 10, 2, 10, -1, 0, 2, 10},
-  {0, 2, 9, 1, 1, 0, -1, 1, 9}
-};
+// double controlArray[17][9] =   {
+//   {1, 1, 9, 1, 2, 0, -1, 1, 2}, 
+//   {0, 2.1, 2.1, 1, 1, 1, 0, 2, 1},
+//   {1, 2, 1, 6, 2, 1, 0, 6, 2},
+//   {1, 6, 2, 10, 1.5, 1, 0, 9.8, 1.5},
+//   {0, 9.9, 2.6, 1, 1, 0, 1, 10.8, 2.5},
+//   {1, 11, 2.5, 11, 5, 0, 1, 11, 5},
+//   {0, 10, 4.9, 1, 1, 0, -1, 9, 5},
+//   {0, 7.9, 5.1, 1, 0, -1, 0, 8, 4},
+//   {1, 8, 4, 4, 4.5, -1, 0, 4.2, 4.5},
+//   {0, 4.1, 5.6, 1, 0, 0, 1, 3, 5.3},
+//   {1, 3, 5.5, 3, 8, 0, 1, 3, 7.6},
+//   {0, 4.1, 7.9, 1, 0, 1, 0, 3.8, 9},
+//   {1, 4, 9, 10, 9, 1, 0, 10.1, 9},
+//   {0, 10, 10.5, 1.5, 1, -1, 0, 10, 12},
+//   {1, 10, 12, 6, 10, -1, 0, 6, 10},
+//   {1, 6, 10, 2, 10, -1, 0, 2, 10},
+//   {0, 2, 9, 1, 1, 0, -1, 1, 9}
+// };
+
+//line
+double controlArray[1][9] = {
+  {1, 10.927, 9.55, 5.366, 9.464, -1, 0, -100, 0}};
+
+// //circle
+// double controlArray[1][9] = {
+//   {0, 9.415, 9.592, 1.5, 1, 0, 1, 0, 100}};
+
+//minitrack
+// double controlArray[4][9] = {
+//   {1, 9.352, 11.069, 6.823, 11.054, 0, -1, 6.7, 11.054}, 
+//   {0, 6.857, 9.552, 1.5, 1, 1, 0, 6.9, 8.037}, 
+//   {1, 6.959, 8.037, 9.446, 8.058, 1, 0, 9.4, 8.058},
+//   {0, 9.415, 9.592, 1.5, 1, -1, 0, 9.2, 11.069}
+// };
 
 double driveTable[4][2] = {
   {78, 0.92}, 
@@ -186,7 +202,7 @@ void AutoCodeTopLevel(void)
 
     AutoCodeEncoder(U, encoderData);
     AutoCodeEstimatePos(X, U);
-    AutoCodeUpdatePosPozyx(X, pozyxInfo, counter);
+    //AutoCodeUpdatePosPozyx(X, pozyxInfo, counter);
     AutoCodeControl(X, U);
     AutoCodeSetMotorPWM(U, PWM);
     sprintf(outbuf, "%d,%d",PWM[0],PWM[1]);
@@ -201,16 +217,16 @@ void AutoCodeTopLevel(void)
     printf("X: %.2f, Y: %.2f, Heading: %.2f, Velocity: %.2f, Steering Angle: %.2f\n", X[0], X[1], X[2], U[0], U[1]);
     double testAngle = U[1] * 180 / M_PI;
     counter += 1; //(counter %10) == 0
-    wait(1); // wait 0.1 seconds
+    //wait(1); // wait 0.1 seconds
 
   }
 }
 
 void AutoCodeInitialize(double X[3], double U[2])
 {
-  X[0] = 1.1;
-  X[1] = 8.0;
-  X[2] = -1.5707963267948966;
+  X[0] = 10.9; // Testing! Xpos: 9.3 for Circ/HalfTrack, 10.9 for line; 1 for track
+  X[1] = 8.5; // Testing! Ypos: 11 for circ/halftrack, 9.5 for line; 8ish for track
+  X[2] = M_PI; //-1.5707963267948966; // Testing! heading: pi for circ/halftrack/line, -pi/2 for track
   /*  sample data pwm, speed; */
   /*  sample data pwm, angle */
   /* set the initial angle of the car */
