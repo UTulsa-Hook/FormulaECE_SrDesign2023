@@ -53,12 +53,18 @@ double controlArray[1][9] = {
 
 
 double driveTable[4][2] = {{78, .92}, {80, 1.56}, {82, 2.19}, {84, 2.61}}; 
+// double steerTable[15][2] = { //initial steer table
+//   {60, 45}, {62, 45}, {64, 55}, {66, 60},
+//   {68, 70}, {70, 75}, {72, 80}, {74, 90},
+//   {76, 95}, {78, 105}, {80, 110}, {82, 115},
+//   {84, 120}, {86, 125}, {88, 130}
+//   };
 double steerTable[15][2] = {
-  {60, 45}, {62, 45}, {64, 55}, {66, 60},
-  {68, 70}, {70, 75}, {72, 80}, {74, 90},
-  {76, 95}, {78, 105}, {80, 110}, {82, 115},
-  {84, 120}, {86, 125}, {88, 130}
-  };
+  {54, 45}, {56, 45}, {58, 55},  {60, 60},
+  {62, 70}, {64, 75}, {66, 80}, {68, 85},
+  {70, 90}, {72, 95},  {74, 105},  {76, 110}, 
+  {80, 115}, {82, 120}, {84, 125}, {86, 130}
+};
 double dt = .1;
 double v = 1;
 int counter = 0;
@@ -253,7 +259,7 @@ void AutoCodeTopLevel(void)
     double pozyxInfo[2] = {posx, posy};
 
     AutoCodeEstimatePos(X, U);
-    //AutoCodeUpdatePosPozyx(X, samplePozyxInput, counter);
+    AutoCodeUpdatePosPozyx(X, samplePozyxInput, counter);
     AutoCodeControl(X, U);
     
     AutoCodeSetMotorPWM(U, PWM);
@@ -329,7 +335,7 @@ void AutoCodeUpdatePosPozyx(double X[3], double pozyxInput[2], int counter){
   double muPosTime = .07;
   double updatePos[2];
   if (size() > 1.9 / dt){
-    int index = -muPosTime/dt;
+    int index = muPosTime/dt;
     serch(counter-index, X_old_predicted);
     updatePos[0] = pozyxInput[0] - X_old_predicted[0];
     updatePos[1] = pozyxInput[1] - X_old_predicted[1];
