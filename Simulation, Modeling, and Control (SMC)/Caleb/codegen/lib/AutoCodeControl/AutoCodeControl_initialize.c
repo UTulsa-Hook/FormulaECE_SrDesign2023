@@ -2,21 +2,26 @@
  * Academic License - for use in teaching, academic research, and meeting
  * course requirements at degree granting institutions only.  Not for
  * government, commercial, or other organizational use.
- * File: AutoCodeControl_types.h
+ * File: AutoCodeControl_initialize.c
  *
  * MATLAB Coder version            : 5.3
  * C/C++ source code generated on  : 24-Oct-2022 14:58:55
  */
 
-#ifndef AUTOCODECONTROL_TYPES_H
-#define AUTOCODECONTROL_TYPES_H
-
 /* Include Files */
-#include "rtwtypes.h"
+#include "AutoCodeControl_initialize.h"
 
-#endif
+/* Function Definitions */
 /*
- * File trailer for AutoCodeControl_types.h
+ * Arguments    : void
+ * Return Type  : void
+ */
+void AutoCodeControl_initialize(void)
+{
+}
+
+/*
+ * File trailer for AutoCodeControl_initialize.c
  *
  * [EOF]
  */

@@ -20,7 +20,7 @@ if(pozyxInput.size() > 1.9/dt)
     X_old_predicted = queue{IndexUsBackwards}(2:3);
     updatePos(1) = X_old_pozyx(1) - X_old_predicted(1);
     updatePos(2) = X_old_pozyx(2) - X_old_predicted(2);
-    X_bar = X_bar + (updatePos/10)';
+    X_bar = X_bar + (updatePos/100)';
 end
 
 end

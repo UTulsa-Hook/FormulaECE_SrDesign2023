@@ -94,7 +94,7 @@
 #define __RING_BUFFER_H__
 
 	/* Includes: */
-		#include "../../Common/Common.h"
+		//#include "../../Common/Common.h"
 
 	/* Enable C linkage for C++ Compilers: */
 		#if defined(__cplusplus)
