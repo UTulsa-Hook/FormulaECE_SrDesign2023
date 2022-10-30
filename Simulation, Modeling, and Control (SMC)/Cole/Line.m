@@ -16,17 +16,17 @@ function U = Line(XBar)
     deltaX = B(1) - A(1);
     deltaY = B(2) - A(2);
     
-    angle = atan2d(deltaY, deltaX);
+    angle = atan2d(deltaY, deltaX)
     R = [cosd(angle) -sind(angle) A(1);...
         sind(angle) cosd(angle) B(2);...
         0, 0, 1];
-    D = inv(R) *[XBar(1:2); 1];
+    D = inv(R) *[XBar(1:2); 1]
     v = 2;
     kp = -0.4;
     kd = -0.5;
-    deriv = (D(2)-oldD)/dt;
-    thetaDot = (D(2) * kp) + (kd * deriv);
-    U(1) = v;
-    U(2) = thetaDot;
+    deriv = (D(2)-oldD)/dt
+    thetaDot = (D(2) * kp) + (kd * deriv)
+    U(1) = v
+    U(2) = thetaDot
     oldD = D(2);
 end

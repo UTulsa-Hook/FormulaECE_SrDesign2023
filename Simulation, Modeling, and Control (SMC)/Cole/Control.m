@@ -1,4 +1,4 @@
-function U = Control(XBar)
+function UBar = Control(XBar)
     global Array;
     global Index;
 
@@ -14,8 +14,8 @@ function U = Control(XBar)
     end
     
     if(Array(Index, 1) == 0)
-        U = Circle(XBar, resetIntegral);
+        UBar = Circle(XBar, resetIntegral);
     else
-        U = Line(XBar);
+        UBar = Line(XBar);
     end
 end
