@@ -1,0 +1,28 @@
+/*
+ * Author: Nicholas Chorette
+ * Date Created: 9/1/2022 
+ * Purpose: Previous files Currupted, purpose is to sent/recieve serial information from the RasPi and send back what info it recieved. This should be used for control PWM as well on a dedicated pin. 
+ */
+
+int pwmPin = 9; //pin number for PWM 
+
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(pwmPin, OUTPUT); //set this pin as an output so it can preform PWM
+  Serial.begin(9600); 
+}
+
+void loop() {
+
+   if(Serial.available() > 0){ 
+      String data = Serial.readStringUntil('\n'); // end char to stop listeneing
+      //int holder[] = toInt(data)
+      int recieved = data.toInt(); 
+      analogWrite(pwmPin, recieved); //should range from 0 to 255 
+        
+      //Serial.print(data.toInt()); //converts recieved message, assuming its a string of numbers 
+      Serial.println(data); //send it back to the RasPi 
+   }
+  // put your main code here, to run repeatedly:
+
+}
