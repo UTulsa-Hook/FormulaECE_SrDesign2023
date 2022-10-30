@@ -6,7 +6,7 @@
 #include "comms.h"
 
 #define BUFFSIZE 512
-#define PI 3.1415926
+//#define PI 3.1415926
 
 #define INFILENAME "pytoc"
 #define OUTFILENAME "ctopy"
@@ -39,7 +39,7 @@ double driveTable[4][2] = {
     {84, 13.1}};
 
 double steerTable[16][2] = {
-    {54, 45}, {56, 45}, {58, 55}, {60, 60}, {62, 70}, {64, 75}, {66, 80}, {68, 85}, {70, 90}, {72, 95}, {74, 105}, {76, 110}, {80, 115}, {82, 120}, {84, 125}, {86, 130}};
+    {87, 61}, {86, 64}, {85, 66}, {84, 69}, {83, 71}, {81, 75}, {79, 81}, {77, 86}, {76, 90}, {75, 94}, {73, 100}, {71, 106}, {69, 111}, {68, 116}, {67, 120}, {65, 130}};
 
 // line
 double controlArray[1][9] = {
@@ -265,7 +265,7 @@ void estimatePos(double X[3], double U[2])
 
 double deg2rad(double degs)
 {
-    double radian = degs * (PI / 180.0);
+    double radian = degs * (3.1415926 / 180.0);
     return radian;
 }
 
@@ -361,7 +361,7 @@ void controlLine(double X[3], double U[2])
     //  rotation matrix
     double R[3][3] = {
         {cos(alpha1), -sin(alpha1), W1[0]},
-        {sin(alpha1), cos(alpha1), W1[2]},
+        {sin(alpha1), cos(alpha1), W1[1]},
         {0, 0, 1}};
 
     for (int i = 0; i < 3; i++)
