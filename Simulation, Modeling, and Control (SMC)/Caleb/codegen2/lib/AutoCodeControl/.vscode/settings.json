@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "autocodecontrol.h": "c",
+        "math.h": "c"
+    }
+}

@@ -5,7 +5,7 @@
  * File: AutoCodeControl_types.h
  *
  * MATLAB Coder version            : 5.3
- * C/C++ source code generated on  : 23-Oct-2022 18:35:10
+ * C/C++ source code generated on  : 24-Oct-2022 14:58:55
  */
 
 #ifndef AUTOCODECONTROL_TYPES_H

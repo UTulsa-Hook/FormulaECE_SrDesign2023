@@ -2,7 +2,7 @@
 ## Makefile generated for component 'AutoCodeControl'. 
 ## 
 ## Makefile     : AutoCodeControl_rtw.mk
-## Generated on : Sun Oct 23 10:56:19 2022
+## Generated on : Mon Oct 24 14:59:02 2022
 ## Final product: ./AutoCodeControl.lib
 ## Product type : static-library
 ## 
@@ -186,7 +186,7 @@ DEFINES = $(DEFINES_CUSTOM) $(DEFINES_STANDARD)
 ## SOURCE FILES
 ###########################################################################
 
-SRCS = $(START_DIR)/codegen/lib/AutoCodeControl/coder_posix_time.c $(START_DIR)/codegen/lib/AutoCodeControl/AutoCodeControl.c
+SRCS = $(START_DIR)/codegen/lib/AutoCodeControl/AutoCodeControl_data.c $(START_DIR)/codegen/lib/AutoCodeControl/AutoCodeControl_initialize.c $(START_DIR)/codegen/lib/AutoCodeControl/AutoCodeControl_terminate.c $(START_DIR)/codegen/lib/AutoCodeControl/AutoCodeControl.c
 
 ALL_SRCS = $(SRCS)
 
@@ -194,7 +194,7 @@ ALL_SRCS = $(SRCS)
 ## OBJECTS
 ###########################################################################
 
-OBJS = coder_posix_time.c.o AutoCodeControl.c.o
+OBJS = AutoCodeControl_data.c.o AutoCodeControl_initialize.c.o AutoCodeControl_terminate.c.o AutoCodeControl.c.o
 
 ALL_OBJS = $(OBJS)
 
@@ -346,7 +346,15 @@ $(PRODUCT) : $(OBJS) $(PREBUILT_OBJS)
 	$(CPP) $(CPPFLAGS) -o "$@" "$<"
 
 
-coder_posix_time.c.o : $(START_DIR)/codegen/lib/AutoCodeControl/coder_posix_time.c
+AutoCodeControl_data.c.o : $(START_DIR)/codegen/lib/AutoCodeControl/AutoCodeControl_data.c
+	$(CC) $(CFLAGS) -o "$@" "$<"
+
+
+AutoCodeControl_initialize.c.o : $(START_DIR)/codegen/lib/AutoCodeControl/AutoCodeControl_initialize.c
+	$(CC) $(CFLAGS) -o "$@" "$<"
+
+
+AutoCodeControl_terminate.c.o : $(START_DIR)/codegen/lib/AutoCodeControl/AutoCodeControl_terminate.c
 	$(CC) $(CFLAGS) -o "$@" "$<"
 
 

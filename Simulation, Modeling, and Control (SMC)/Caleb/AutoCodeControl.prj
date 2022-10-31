@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.coder" plugin-version="R2021a">
-  <configuration build-checksum="4159947756" file="C:\Clone_SD_Repo\FormulaECE_SrDesign2023\Simulation, Modeling, and Control (SMC)\Caleb\AutoCodeControl.prj" location="C:\Clone_SD_Repo\FormulaECE_SrDesign2023\Simulation, Modeling, and Control (SMC)\Caleb" name="AutoCodeControl" target="target.unifiedcoder" target-name="MATLAB Coder">
+  <configuration build-checksum="3190555224" file="C:\Clone_SD_Repo\FormulaECE_SrDesign2023\Simulation, Modeling, and Control (SMC)\Caleb\AutoCodeControl.prj" location="C:\Clone_SD_Repo\FormulaECE_SrDesign2023\Simulation, Modeling, and Control (SMC)\Caleb" name="AutoCodeControl" target="target.unifiedcoder" target-name="MATLAB Coder">
     <profile key="profile.mex">
       <param.BuiltInstrumentedMex>false</param.BuiltInstrumentedMex>
       <param.RanInstrumentedMex>false</param.RanInstrumentedMex>
@@ -170,7 +170,7 @@
       <param.SpecifiedBuildFolder />
       <param.SearchPaths />
       <var.SimdQueryHardwareVendor>ARM Compatible</var.SimdQueryHardwareVendor>
-      <var.SimdQueryHardwareType>ARM Cortex-A</var.SimdQueryHardwareType>
+      <var.SimdQueryHardwareType>ARM Cortex</var.SimdQueryHardwareType>
       <param.InstructionSetExtensionsAvailableInUI>false</param.InstructionSetExtensionsAvailableInUI>
       <param.InstructionSetExtensions>None</param.InstructionSetExtensions>
       <param.SaturateOnIntegerOverflow>true</param.SaturateOnIntegerOverflow>
@@ -189,7 +189,7 @@
       <param.EliminateSingleDimensions>false</param.EliminateSingleDimensions>
       <param.StackUsageMax>200000</param.StackUsageMax>
       <param.MultiInstanceCode>false</param.MultiInstanceCode>
-      <param.FilePartitionMethod>option.FilePartitionMethod.SingleFile</param.FilePartitionMethod>
+      <param.FilePartitionMethod>option.FilePartitionMethod.MapMFileToCFile</param.FilePartitionMethod>
       <param.GenerateComments>true</param.GenerateComments>
       <param.CommentStyle>option.CommentStyle.Auto</param.CommentStyle>
       <param.MATLABSourceComments>false</param.MATLABSourceComments>
@@ -269,12 +269,12 @@
       <param.BuildConfiguration>Faster Runs</param.BuildConfiguration>
       <param.CustomToolchainOptions />
       <var.ToolchainSettingsVisible>true</var.ToolchainSettingsVisible>
-      <param.target.Data>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;ctdata&gt;&lt;configuredHardware/&gt;&lt;/ctdata&gt;</param.target.Data>
+      <param.target.Data>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;ctdata&gt;&lt;configuredHardware&gt;&lt;hardware version="1.0"&gt;&lt;name&gt;ARM Cortex-A9 (QEMU)&lt;/name&gt;&lt;customValues/&gt;&lt;/hardware&gt;&lt;/configuredHardware&gt;&lt;/ctdata&gt;</param.target.Data>
       <param.target.ActiveType>option.target.TargetType.Custom</param.target.ActiveType>
       <param.target.ActiveTarget />
       <param.HardwareVendor.Production>ARM Compatible</param.HardwareVendor.Production>
-      <param.HardwareType.Production>ARM Cortex-A</param.HardwareType.Production>
-      <param.HWDeviceType.Production>ARM Compatible-&gt;ARM Cortex-A</param.HWDeviceType.Production>
+      <param.HardwareType.Production>ARM Cortex</param.HardwareType.Production>
+      <param.HWDeviceType.Production>ARM Compatible-&gt;ARM Cortex</param.HWDeviceType.Production>
       <var.instance.enabled.Production>true</var.instance.enabled.Production>
       <param.HardwareSizeChar.Production>8</param.HardwareSizeChar.Production>
       <param.HardwareSizeShort.Production>16</param.HardwareSizeShort.Production>
@@ -294,8 +294,8 @@
       <param.HardwareAtomicFloatSize.Production>option.HardwareAtomicFloatSize.Double</param.HardwareAtomicFloatSize.Production>
       <param.HardwareDivisionRounding.Production>option.HardwareDivisionRounding.Zero</param.HardwareDivisionRounding.Production>
       <param.HardwareVendor.Target>ARM Compatible</param.HardwareVendor.Target>
-      <param.HardwareType.Target>ARM Cortex-A</param.HardwareType.Target>
-      <param.HWDeviceType.Target>ARM Compatible-&gt;ARM Cortex-A</param.HWDeviceType.Target>
+      <param.HardwareType.Target>ARM Cortex</param.HardwareType.Target>
+      <param.HWDeviceType.Target>ARM Compatible-&gt;ARM Cortex</param.HWDeviceType.Target>
       <var.instance.enabled.Target>false</var.instance.enabled.Target>
       <param.HardwareSizeChar.Target>8</param.HardwareSizeChar.Target>
       <param.HardwareSizeShort.Target>16</param.HardwareSizeShort.Target>
@@ -388,6 +388,7 @@
         <param.EliminateSingleDimensions />
         <param.StackUsageMax />
         <param.MultiInstanceCode />
+        <param.FilePartitionMethod />
         <param.GenerateComments />
         <param.CommentStyle />
         <param.MATLABSourceComments />
@@ -907,7 +908,7 @@
       </unset>
     </profile>
     <param.objective>option.objective.c</param.objective>
-    <param.WorkflowStep>workflowSummary</param.WorkflowStep>
+    <param.WorkflowStep>generateCode</param.WorkflowStep>
     <param.TestSnippets>
       <item>AutoCodeControl([0 0 0])</item>
     </param.TestSnippets>
@@ -928,7 +929,7 @@
     <param.AutoInferUnboundedSizeThreshold>2048</param.AutoInferUnboundedSizeThreshold>
     <param.EnableFixedPointStep>false</param.EnableFixedPointStep>
     <param.EnableScreener>true</param.EnableScreener>
-    <param.AnnotationChecksum>3597085044</param.AnnotationChecksum>
+    <param.AnnotationChecksum>1321821358</param.AnnotationChecksum>
     <var.LegacyTarget />
     <var.MirrorOnOpen>false</var.MirrorOnOpen>
     <param.FixedPointEnabled>false</param.FixedPointEnabled>
@@ -937,7 +938,7 @@
     <param.unifiedParamStorage />
     <var.gc.lastOutputRoot>codegen\lib\AutoCodeControl</var.gc.lastOutputRoot>
     <var.gc.lastOutputType>C_CODE</var.gc.lastOutputType>
-    <var.gc.preBuildChecksum>3488960158</var.gc.preBuildChecksum>
+    <var.gc.preBuildChecksum>1623030153</var.gc.preBuildChecksum>
     <var.cfi.lastOutputRoot>codegen\mex\AutoCodeControl</var.cfi.lastOutputRoot>
     <var.cfi.preBuildChecksum>1482864034</var.cfi.preBuildChecksum>
     <var.lastCfiTestSnippet>AutoCodeControl([0 0 0])</var.lastCfiTestSnippet>
@@ -1165,7 +1166,7 @@
     </unset>
     <fileset.entrypoints>
       <file custom-data-expanded="false" value="${PROJECT_ROOT}\AutoCodeControl.m">
-        <Marker>1666539750248</Marker>
+        <Marker>1666641447897</Marker>
       </file>
     </fileset.entrypoints>
     <fileset.testbench />

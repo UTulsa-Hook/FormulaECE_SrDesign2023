@@ -72,7 +72,7 @@ if(includeUncertainty)
         uncert(2) = normrnd(0, sigmaSteering);
     end
 end
-rad2deg(U(2))
+rad2deg(U(2));
 U = U + uncert;
 Ubar_hold = U_bar;
 PWMtoSend = [driveCurvePWM, steerCurvePWM];

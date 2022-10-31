@@ -43,8 +43,8 @@ function U = controlCircle(X_bar, resetIntegral)
     elseif(controlIndex == 7)
         ki = 0.0002;
     else
-        ki = 0.00035;
-        %ki = 0.5; % for testing
+        %ki = 0.00035;
+        ki = 0.05; % for testing
     end
 
     if(lambda == 0)
@@ -67,7 +67,7 @@ function U = controlCircle(X_bar, resetIntegral)
     U(1) = velocity; %velocity
     U(2) = thetaS; 
     oldD = error;
-    integralFactor = integralFactor + error*dt
+    integralFactor = integralFactor + error*dt;
 
     if(plotting)
         if t == 0

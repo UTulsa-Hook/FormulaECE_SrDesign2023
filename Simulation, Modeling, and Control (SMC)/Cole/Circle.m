@@ -7,6 +7,7 @@ function U = Circle(XBar, resetIntegral)
     persistent integralFactor
     persistent integralPlot
     persistent t
+    U = [0 0];
 
     plotting = false;
 

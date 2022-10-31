@@ -5,7 +5,7 @@
  * File: _coder_AutoCodeControl_mex.h
  *
  * MATLAB Coder version            : 5.3
- * C/C++ source code generated on  : 23-Oct-2022 18:35:10
+ * C/C++ source code generated on  : 24-Oct-2022 14:58:55
  */
 
 #ifndef _CODER_AUTOCODECONTROL_MEX_H
@@ -28,19 +28,6 @@ emlrtCTX mexFunctionCreateRootTLS(void);
 
 void unsafe_AutoCodeControl_mexFunction(int32_T nlhs, mxArray *plhs[1],
                                         int32_T nrhs, const mxArray *prhs[1]);
-
-void unsafe_AutoCodeEstimatePos_mexFunction(int32_T nlhs, mxArray *plhs[1],
-                                            int32_T nrhs,
-                                            const mxArray *prhs[2]);
-
-void unsafe_AutoCodeInitialize_mexFunction(int32_T nlhs, mxArray *plhs[2],
-                                           int32_T nrhs);
-
-void unsafe_AutoCodeSetMotorPWM_mexFunction(int32_T nlhs, mxArray *plhs[1],
-                                            int32_T nrhs,
-                                            const mxArray *prhs[1]);
-
-void unsafe_AutoCodeTopLevel_mexFunction(int32_T nlhs, int32_T nrhs);
 
 #ifdef __cplusplus
 }

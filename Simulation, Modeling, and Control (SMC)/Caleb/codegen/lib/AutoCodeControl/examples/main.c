@@ -5,7 +5,7 @@
  * File: main.c
  *
  * MATLAB Coder version            : 5.3
- * C/C++ source code generated on  : 23-Oct-2022 18:35:10
+ * C/C++ source code generated on  : 24-Oct-2022 14:58:55
  */
 
 /*************************************************************************/
@@ -36,40 +36,16 @@
 /* Include Files */
 #include "main.h"
 #include "AutoCodeControl.h"
+#include "AutoCodeControl_terminate.h"
 
 /* Function Declarations */
-static void argInit_1x2_real_T(double result[2]);
-
 static void argInit_1x3_real_T(double result[3]);
 
 static double argInit_real_T(void);
 
 static void main_AutoCodeControl(void);
 
-static void main_AutoCodeEstimatePos(void);
-
-static void main_AutoCodeInitialize(void);
-
-static void main_AutoCodeSetMotorPWM(void);
-
-static void main_AutoCodeTopLevel(void);
-
 /* Function Definitions */
-/*
- * Arguments    : double result[2]
- * Return Type  : void
- */
-static void argInit_1x2_real_T(double result[2])
-{
-  int idx1;
-  /* Loop over the array to initialize each element. */
-  for (idx1 = 0; idx1 < 2; idx1++) {
-    /* Set the value of the array element.
-Change this value to the value that the application requires. */
-    result[idx1] = argInit_real_T();
-  }
-}
-
 /*
  * Arguments    : double result[3]
  * Return Type  : void
@@ -100,67 +76,13 @@ static double argInit_real_T(void)
  */
 static void main_AutoCodeControl(void)
 {
-  double b_dv[3];
+  double dv[3];
   double U[2];
   /* Initialize function 'AutoCodeControl' input arguments. */
   /* Initialize function input argument 'X'. */
   /* Call the entry-point 'AutoCodeControl'. */
-  argInit_1x3_real_T(b_dv);
-  AutoCodeControl(b_dv, U);
-}
-
-/*
- * Arguments    : void
- * Return Type  : void
- */
-static void main_AutoCodeEstimatePos(void)
-{
-  double X[3];
-  double b_dv[2];
-  /* Initialize function 'AutoCodeEstimatePos' input arguments. */
-  /* Initialize function input argument 'X'. */
-  /* Initialize function input argument 'U'. */
-  /* Call the entry-point 'AutoCodeEstimatePos'. */
-  argInit_1x3_real_T(X);
-  argInit_1x2_real_T(b_dv);
-  AutoCodeEstimatePos(X, b_dv);
-}
-
-/*
- * Arguments    : void
- * Return Type  : void
- */
-static void main_AutoCodeInitialize(void)
-{
-  double X[3];
-  double U[2];
-  /* Call the entry-point 'AutoCodeInitialize'. */
-  AutoCodeInitialize(X, U);
-}
-
-/*
- * Arguments    : void
- * Return Type  : void
- */
-static void main_AutoCodeSetMotorPWM(void)
-{
-  double PWM[2];
-  double b_dv[2];
-  /* Initialize function 'AutoCodeSetMotorPWM' input arguments. */
-  /* Initialize function input argument 'U'. */
-  /* Call the entry-point 'AutoCodeSetMotorPWM'. */
-  argInit_1x2_real_T(b_dv);
-  AutoCodeSetMotorPWM(b_dv, PWM);
-}
-
-/*
- * Arguments    : void
- * Return Type  : void
- */
-static void main_AutoCodeTopLevel(void)
-{
-  /* Call the entry-point 'AutoCodeTopLevel'. */
-  AutoCodeTopLevel();
+  argInit_1x3_real_T(dv);
+  AutoCodeControl(dv, U);
 }
 
 /*
@@ -177,10 +99,6 @@ int main(int argc, char **argv)
   /* Invoke the entry-point functions.
 You can call entry-point functions multiple times. */
   main_AutoCodeControl();
-  main_AutoCodeEstimatePos();
-  main_AutoCodeInitialize();
-  main_AutoCodeSetMotorPWM();
-  main_AutoCodeTopLevel();
   /* Terminate the application.
 You do not need to do this more than one time. */
   AutoCodeControl_terminate();

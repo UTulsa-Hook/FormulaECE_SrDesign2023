@@ -87,9 +87,10 @@ int dequeue(Queue q)
 
 void display_pqueue(Queue q)
 {
+    
     for (; q->top <= q->tail; q->top++)
     {
-        printf(" %d ", pri_que[front]);
+        printf(" %d ", q[q->top]);
     }
  
     front = 0;

@@ -18,7 +18,7 @@ if(isempty(Ubar_hold))
 end
 
 driveCurve = U_bar(1);
-steerCurve = rad2deg(U_bar(2))
+steerCurve = rad2deg(U_bar(2));
 
 while(steerCurve < -180 || steerCurve > 180)
     if(steerCurve < -180)
@@ -73,7 +73,7 @@ if(includeUncertainty)
         uncert(2) = normrnd(0, sigmaSteering);
     end
 end
-rad2deg(U(2))
+rad2deg(U(2));
 U = U + uncert;
 Ubar_hold = U_bar;
 PWMtoSend = [driveCurvePWM, steerCurvePWM];
