@@ -210,16 +210,18 @@ if __name__ == '__main__':
 			read = datetime.now()
 			pos, write, net_id = r.loop()
 			pozyx.getAllSensorData(raw, remote_id)
-			mag = Magnetic(raw[4],raw[5],raw[6])
+			#mag = Magnetic(raw[4],raw[5],raw[6])
 			head = EulerAngles(raw[10],raw[11],raw[12])
 			os.write(out, bytes(f"{pos.x/1000},{pos.y/1000},{head.heading},{write},{net_id}\n","utf-8"))
-			print(pos)
+			print(f"{pos.x/1000},{pos.y/1000},{head.heading},{write},{net_id}\n")
 			[motorduty, servoduty] = [float(x) for x in os.read(infile, 512).decode("utf-8").rstrip("\x00").split(",")]
 			servopwm.change_duty_cycle(servoduty)
 			motorpwm.change_duty_cycle(motorduty)
 			print(f"{motorduty},{servoduty}")
 		except:
 			try:
+				servopwm.change_duty_cycle(72)
+				motorpwm.change_duty_cycle(72)
 				os.close(out)
 				os.close(infile)
 				os.unlink(outPath)
